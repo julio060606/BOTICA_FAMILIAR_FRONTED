@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Historial de Tickets - Botica Familiar</title>
+  
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/css/variables.css">
+</head>
+<body class="app">
+
+  <div class="d-flex" style="height: 100vh; overflow: hidden;">
+    <div id="sidebar-container"></div>
+
+    <div class="flex-grow-1 d-flex flex-column" style="overflow: hidden;">
+      <div id="navbar-container"></div>
+
+      <!-- MAIN CONTENT -->
+      <main class="flex-grow-1" style="overflow-y: auto;">
+        
+        <div class="container-limit px-4 py-4">
+
+          <!-- HEADER DE SECCIÓN -->
+          <div class="d-flex justify-content-between align-items-center mb-4 pb-2">
+            <div>
+              <h1 class="page-title m-0">Historial de Tickets</h1>
+              <p class="small text-google-muted mt-1 m-0">Consulta, reimpresión y anulación de ventas</p>
+            </div>
+          </div>
+
+          <!-- 1. BARRA DE BÚSQUEDA Y FILTROS -->
+          <div class="card card-google mb-4 p-3">
+            <div class="row g-3 align-items-center">
+              
+              <!-- Buscador por Nro de Ticket -->
+              <div class="col-lg-4">
+                <div class="search-google d-flex align-items-center gap-2">
+                  <span>🔍</span>
+                  <input type="text" placeholder="Buscar por Nro. de Ticket (Ej. T001-0084)...">
+                </div>
+              </div>
+
+              <!-- Filtro por Fecha -->
+              <div class="col-lg-3">
+                <div class="input-group">
+                  <span class="input-group-text bg-light border-google text-google-muted">📅</span>
+                  <input type="date" class="form-control form-control-google border-start-0" value="2026-05-04">
+                </div>
+              </div>
+
+              <!-- Filtro por Estado -->
+              <div class="col-lg-3">
+                <select class="form-select form-control-google text-google-muted">
+                  <option selected>Todos los estados</option>
+                  <option value="valido">Válidos</option>
+                  <option value="anulado">Anulados</option>
+                </select>
+              </div>
+
+              <div class="col-lg-2">
+                <button class="btn btn-google-light w-100 fw-medium">Filtrar</button>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- 2. TABLA DE TICKETS -->
+          <div class="card card-google d-flex flex-column">
+            
+            <div class="table-responsive mb-0">
+              <table class="table table-hover align-middle m-0 table-google">
+                <thead>
+                  <tr class="small text-google-muted text-uppercase letter-spacing-1">
+                    <th>Nro. Ticket</th>
+                    <th>Fecha / Hora</th>
+                    <th>Cliente</th>
+                    <th class="text-center">Medio Pago</th>
+                    <th>Cajero</th>
+                    <th class="text-end">Total</th>
+                    <th class="text-center">Estado</th>
+                    <th class="text-center">Acciones</th>
+                  </tr>
+                </thead>
+                <tbody class="border-top-0">
+                  
+                  <!-- Ticket 1: Válido -->
+                  <tr>
+                    <td><span class="text-google-title fw-bold font-monospace">T001-0084</span></td>
+                    <td class="text-google-muted small">04/05/2026<br>14:30:15</td>
+                    <td class="text-google-title">Público en General</td>
+                    <td class="text-center"><span class="fs-5" title="Efectivo">💵</span></td>
+                    <td class="text-google-muted">Julio Minaya</td>
+                    <td class="text-end fw-bold text-google-title">S/ 11.00</td>
+                    <td class="text-center">
+                      <span class="badge badge-tonal-success rounded-pill px-3 py-2 fw-medium">Válido</span>
+                    </td>
+                    <td class="text-center">
+                      <!-- Botón para ver el detalle -->
+                      <button class="btn btn-sm btn-google-light text-primary border-0" 
+                              data-bs-toggle="modal" data-bs-target="#modalDetalleTicket" title="Ver Detalle">
+                        👁️
+                      </button>
+                      <!-- Botón rápido para reimprimir -->
+                      <button class="btn btn-sm btn-google-light text-secondary border-0" title="Reimprimir">
+                        🖨️
+                      </button>
+                    </td>
+                  </tr>
+
+                  <!-- Ticket 2: Anulado -->
+                  <tr class="bg-light opacity-75">
+                    <td><span class="text-google-muted text-decoration-line-through font-monospace">T001-0083</span></td>
+                    <td class="text-google-muted small">04/05/2026<br>12:15:00</td>
+                    <td class="text-google-muted">Maria Lopez</td>
+                    <td class="text-center"><span class="fs-5 opacity-50" title="Yape">📱</span></td>
+                    <td class="text-google-muted">Julio Minaya</td>
+                    <td class="text-end fw-bold text-google-muted text-decoration-line-through">S/ 45.50</td>
+                    <td class="text-center">
+                      <span class="badge badge-tonal-danger rounded-pill px-3 py-2 fw-medium">Anulado</span>
+                    </td>
+                    <td class="text-center">
+                      <button class="btn btn-sm btn-google-light text-primary border-0" 
+                              data-bs-toggle="modal" data-bs-target="#modalDetalleTicket" title="Ver Detalle">
+                        👁️
+                      </button>
+                    </td>
+                  </tr>
+
+                  <!-- Ticket 3: Válido (Tarjeta) -->
+                  <tr>
+                    <td><span class="text-google-title fw-bold font-monospace">T001-0082</span></td>
+                    <td class="text-google-muted small">04/05/2026<br>10:05:22</td>
+                    <td class="text-google-title">Juan Perez (DNI 45...)</td>
+                    <td class="text-center"><span class="fs-5" title="Tarjeta">💳</span></td>
+                    <td class="text-google-muted">Julio Minaya</td>
+                    <td class="text-end fw-bold text-google-title">S/ 120.00</td>
+                    <td class="text-center">
+                      <span class="badge badge-tonal-success rounded-pill px-3 py-2 fw-medium">Válido</span>
+                    </td>
+                    <td class="text-center">
+                      <button class="btn btn-sm btn-google-light text-primary border-0" 
+                              data-bs-toggle="modal" data-bs-target="#modalDetalleTicket" title="Ver Detalle">
+                        👁️
+                      </button>
+                      <button class="btn btn-sm btn-google-light text-secondary border-0" title="Reimprimir">
+                        🖨️
+                      </button>
+                    </td>
+                  </tr>
+
+                </tbody>
+              </table>
+            </div>
+
+            <!-- Paginación -->
+            <div class="card-footer bg-transparent border-top py-3 d-flex justify-content-between align-items-center">
+              <span class="small text-google-muted">Mostrando 3 de 84 tickets de hoy</span>
+              <div class="d-flex gap-2">
+                <button class="btn btn-sm btn-light rounded-pill px-3 fw-medium text-google-muted border-google" disabled>Anterior</button>
+                <button class="btn btn-sm btn-google-primary rounded-pill px-3 fw-medium">1</button>
+                <button class="btn btn-sm btn-light rounded-pill px-3 fw-medium text-google-muted border-google">2</button>
+                <button class="btn btn-sm btn-light rounded-pill px-3 fw-medium text-google-muted border-google">Siguiente</button>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <!-- Contenedor del Modal -->
+  <div id="modal-detalle-ticket-container"></div>
+
+  <!-- Scripts -->
+  <script src="/assets/js/inyector.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

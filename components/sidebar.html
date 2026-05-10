@@ -1,0 +1,165 @@
+<!-- ========================================== -->
+<!-- SIDEBAR DESKTOP (Pantallas Grandes)        -->
+<!-- ========================================== -->
+<aside class="d-none d-lg-flex flex-column p-3 sticky-top vh-100 border-0" 
+       style="min-width: 260px; max-width: 260px; background-color: var(--color-sidebar, #212529); color: var(--color-sidebar-text, #ffffff); overflow-y: auto;">
+    
+    <!-- USER CARD (100% Cuadrado, estilo Material) -->
+    <div class="p-3 mb-4 d-flex align-items-center gap-3 rounded-0" style="background-color: var(--color-sidebar-hover, #343a40);">
+        <div class="d-flex justify-content-center align-items-center fw-bold text-white rounded-0" 
+             style="width: 42px; height: 42px; background-color: var(--g-primary); font-size: 1.1rem;">
+            JM
+        </div>
+        <div class="flex-grow-1">
+            <div class="fw-bold text-white" style="font-size: 0.95rem; letter-spacing: 0.5px;">Julio Minaya</div>
+            <div class="small" style="color: var(--color-sidebar-subtext, #adb5bd);">Administrador</div>
+        </div>
+    </div>
+
+    <!-- NAVEGACIÓN -->
+    <nav class="flex-grow-1 overflow-auto custom-scrollbar">
+        
+        <!-- Dashboard (Activo) -->
+        <a href="/pages/dashboard.html" class="nav-link mb-3 d-flex align-items-center gap-3 px-3 py-2 text-white fw-bold rounded-0" 
+           style="background-color: var(--g-primary);">
+            <span>📊</span> Dashboard
+        </a>
+
+        <!-- INVENTARIO DESPLEGABLE -->
+        <div class="mb-2">
+            <a href="#menuInventarioDesk" data-bs-toggle="collapse" aria-expanded="false" 
+               class="nav-link d-flex align-items-center justify-content-between px-3 py-2 text-decoration-none rounded-0" 
+               style="color: var(--color-sidebar-text, #ffffff);">
+                <div class="d-flex align-items-center gap-3">
+                    <span>📦</span> Inventario
+                </div>
+                <span class="dropdown-icon" style="font-size: 0.7rem; color: var(--color-sidebar-subtext, #adb5bd);">▼</span>
+            </a>
+            
+            <div class="collapse ms-4 mt-1 border-start border-2" id="menuInventarioDesk" style="border-color: var(--color-sidebar-hover, #343a40) !important;">
+                <a href="/pages/inventario/catalogo.html" class="nav-link py-1 mb-1 ms-2 small text-decoration-none rounded-0" style="color: var(--color-sidebar-subtext, #adb5bd);">Catálogo de Productos</a>
+                <a href="/pages/inventario/ingresos.html" class="nav-link py-1 mb-1 ms-2 small text-decoration-none rounded-0" style="color: var(--color-sidebar-subtext, #adb5bd);">Ingresos de Mercadería</a>
+                <a href="/pages/inventario/kardex.html" class="nav-link py-1 mb-1 ms-2 small text-decoration-none rounded-0" style="color: var(--color-sidebar-subtext, #adb5bd);">Kardex - Movimientos</a>
+            </div>
+        </div>
+
+        <!-- VENTAS DESPLEGABLE -->
+        <div class="mb-2">
+            <a href="#menuVentasDesk" data-bs-toggle="collapse" aria-expanded="false" 
+               class="nav-link d-flex align-items-center justify-content-between px-3 py-2 text-decoration-none rounded-0" 
+               style="color: var(--color-sidebar-text, #ffffff);">
+                <div class="d-flex align-items-center gap-3">
+                    <span>💰</span> Ventas
+                </div>
+                <span class="dropdown-icon" style="font-size: 0.7rem; color: var(--color-sidebar-subtext, #adb5bd);">▼</span>
+            </a>
+
+            <div class="collapse ms-4 mt-1 border-start border-2" id="menuVentasDesk" style="border-color: var(--color-sidebar-hover, #343a40) !important;">
+                <a href="/pages/ventas/pos.html" class="nav-link py-1 mb-1 ms-2 small text-decoration-none rounded-0" style="color: var(--color-sidebar-subtext, #adb5bd);">POS - Punto de Venta</a>
+                <a href="/pages/ventas/historial.html" class="nav-link py-1 mb-1 ms-2 small text-decoration-none rounded-0" style="color: var(--color-sidebar-subtext, #adb5bd);">Historial de Tickets</a>
+                <a href="/pages/ventas/control-caja.html" class="nav-link py-1 mb-1 ms-2 small text-decoration-none rounded-0" style="color: var(--color-sidebar-subtext, #adb5bd);">Control de Caja</a>
+            </div>
+        </div>
+
+        <!-- REPORTES -->
+        <a href="/pages/reportes.html" class="nav-link mt-2 d-flex align-items-center gap-3 px-3 py-2 text-decoration-none rounded-0" 
+           style="color: var(--color-sidebar-text, #ffffff);">
+            <span>📈</span> Reportes
+        </a>
+    </nav>
+
+    <!-- FOOTER (Botón Salir) -->
+    <div class="pt-3 mt-auto" style="border-top: 1px solid var(--color-sidebar-hover, #343a40);">
+        <!-- Botón cuadrado con el color Rojo Google (g-danger) -->
+        <button class="btn w-100 fw-bold border-0 rounded-0" 
+                style="background-color: var(--color-sidebar-hover, #343a40); color: var(--g-danger);">
+            Cerrar sesión
+        </button>
+    </div>
+</aside>
+
+
+<!-- ========================================== -->
+<!-- SIDEBAR MÓVIL (Offcanvas para Celulares)   -->
+<!-- ========================================== -->
+<div class="offcanvas offcanvas-start d-lg-none border-0 rounded-0" id="sidebarMobile" tabindex="-1" 
+     style="background-color: var(--color-sidebar, #212529); color: var(--color-sidebar-text, #ffffff); width: 280px;">
+    
+    <div class="offcanvas-header" style="border-bottom: 1px solid var(--color-sidebar-hover, #343a40);">
+        <h6 class="mb-0 fw-bold text-white">Menu</h6>
+        <button type="button" class="btn-close btn-close-white shadow-none rounded-0" data-bs-dismiss="offcanvas"></button>
+    </div>
+
+    <div class="offcanvas-body p-3 d-flex flex-column">
+        
+        <!-- USER CARD MÓVIL -->
+        <div class="p-3 mb-4 d-flex align-items-center gap-3 rounded-0" style="background-color: var(--color-sidebar-hover, #343a40);">
+            <div class="d-flex justify-content-center align-items-center fw-bold text-white rounded-0" 
+                 style="width: 42px; height: 42px; background-color: var(--g-primary); font-size: 1.1rem;">
+                JM
+            </div>
+            <div>
+                <div class="fw-bold text-white" style="font-size: 0.95rem;">Julio Minaya</div>
+                <div class="small" style="color: var(--color-sidebar-subtext, #adb5bd);">Administrador</div>
+            </div>
+        </div>
+
+        <!-- NAVEGACIÓN MÓVIL -->
+        <nav class="flex-grow-1 overflow-auto custom-scrollbar">
+            
+            <a href="/pages/dashboard.html" class="nav-link mb-3 d-flex align-items-center gap-3 px-3 py-2 text-white fw-bold rounded-0" 
+               style="background-color: var(--g-primary);">
+                <span>📊</span> Dashboard
+            </a>
+
+            <!-- INVENTARIO MÓVIL -->
+            <div class="mb-2">
+                <a href="#menuInventarioMob" data-bs-toggle="collapse" aria-expanded="false" 
+                   class="nav-link d-flex align-items-center justify-content-between px-3 py-2 text-decoration-none rounded-0" 
+                   style="color: var(--color-sidebar-text, #ffffff);">
+                    <div class="d-flex align-items-center gap-3">
+                        <span>📦</span> Inventario
+                    </div>
+                    <span class="dropdown-icon" style="font-size: 0.7rem; color: var(--color-sidebar-subtext, #adb5bd);">▼</span>
+                </a>
+                
+                <div class="collapse ms-4 mt-1 border-start border-2" id="menuInventarioMob" style="border-color: var(--color-sidebar-hover, #343a40) !important;">
+                    <a href="/pages/inventario/catalogo.html" class="nav-link py-2 mb-1 ms-2 small text-decoration-none rounded-0" style="color: var(--color-sidebar-subtext, #adb5bd);">Catálogo de Productos</a>
+                    <a href="/pages/inventario/ingresos.html" class="nav-link py-2 mb-1 ms-2 small text-decoration-none rounded-0" style="color: var(--color-sidebar-subtext, #adb5bd);">Ingresos de Mercadería</a>
+                    <a href="/pages/inventario/kardex.html" class="nav-link py-2 mb-1 ms-2 small text-decoration-none rounded-0" style="color: var(--color-sidebar-subtext, #adb5bd);">Kardex - Movimientos</a>
+                </div>
+            </div>
+
+            <!-- VENTAS MÓVIL -->
+            <div class="mb-2">
+                <a href="#menuVentasMob" data-bs-toggle="collapse" aria-expanded="false" 
+                   class="nav-link d-flex align-items-center justify-content-between px-3 py-2 text-decoration-none rounded-0" 
+                   style="color: var(--color-sidebar-text, #ffffff);">
+                    <div class="d-flex align-items-center gap-3">
+                        <span>💰</span> Ventas
+                    </div>
+                    <span class="dropdown-icon" style="font-size: 0.7rem; color: var(--color-sidebar-subtext, #adb5bd);">▼</span>
+                </a>
+
+                <div class="collapse ms-4 mt-1 border-start border-2" id="menuVentasMob" style="border-color: var(--color-sidebar-hover, #343a40) !important;">
+                    <a href="/pages/ventas/pos.html" class="nav-link py-2 mb-1 ms-2 small text-decoration-none rounded-0" style="color: var(--color-sidebar-subtext, #adb5bd);">POS - Punto de Venta</a>
+                    <a href="/pages/ventas/historial.html" class="nav-link py-2 mb-1 ms-2 small text-decoration-none rounded-0" style="color: var(--color-sidebar-subtext, #adb5bd);">Historial de Tickets</a>
+                    <a href="/pages/ventas/control-caja.html" class="nav-link py-2 mb-1 ms-2 small text-decoration-none rounded-0" style="color: var(--color-sidebar-subtext, #adb5bd);">Control de Caja</a>
+                </div>
+            </div>
+
+            <a href="/pages/reportes.html" class="nav-link mt-2 d-flex align-items-center gap-3 px-3 py-2 text-decoration-none rounded-0" 
+               style="color: var(--color-sidebar-text, #ffffff);">
+                <span>📈</span> Reportes
+            </a>
+        </nav>
+
+        <!-- FOOTER MÓVIL -->
+        <div class="pt-3 mt-auto" style="border-top: 1px solid var(--color-sidebar-hover, #343a40);">
+            <button class="btn w-100 fw-bold border-0 rounded-0" 
+                    style="background-color: var(--color-sidebar-hover, #343a40); color: var(--g-danger);">
+                Cerrar sesión
+            </button>
+        </div>
+    </div>
+</div>

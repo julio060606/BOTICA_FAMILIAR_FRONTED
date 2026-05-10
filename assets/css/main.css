@@ -1,0 +1,17 @@
+/* BASE */
+@import url('./variables.css');
+
+/* COMPONENTS 
+    @import url('./components/sidebar.css');
+
+/* PAGES 
+    @import url('./pages/dashboard.css');
+    @import url('./pages/notificaciones.css');
+    /* INVENTARIO 
+        @import url('./pages/inventario/catalogo.css');
+        @import url('./pages/inventario/ingresos.css');
+        @import url('./pages/inventario/kardex.css');
+    /* VENTAS 
+        @import url('./pages/ventas/control-cajas.css');
+        @import url('./pages/ventas/historial.css');
+        @import url('./pages/ventas/pos.css');*/

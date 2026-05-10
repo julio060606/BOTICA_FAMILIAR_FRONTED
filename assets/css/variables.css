@@ -1,0 +1,197 @@
+/* ==========================================================================
+   SISTEMA DE DISEÑO - BOTICA FAMILIAR (Google Material 3 Style)
+   ========================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+
+:root {
+  /* 1. PALETA DE COLORES GOOGLE (Tonal Palette) */
+  --g-primary: #1a73e8;        /* Azul Google */
+  --g-primary-hover: #1557b0;
+  --g-primary-soft: #e8f0fe;
+  
+  --g-success: #1e8e3e;        /* Verde Google */
+  --g-success-soft: #e6f4ea;
+  
+  --g-danger: #d93025;         /* Rojo Google */
+  --g-danger-soft: #fce8e6;
+  
+  --g-warning: #f9ab00;        /* Amarillo Google */
+  --g-warning-dark: #b07700;   /* Para textos sobre amarillo */
+  --g-warning-soft: #fef7e0;
+  
+  /* 2. NEUTRALES Y FONDOS */
+  --g-bg: #f8f9fa;             /* Gris extra claro (Fondo de la App) */
+  --g-surface: #ffffff;        /* Blanco puro (Tarjetas, Navbars) */
+  --g-border: #dadce0;         /* Gris de bordes sutiles */
+  
+  /* 3. TIPOGRAFÍA Y TEXTOS */
+  --g-text-main: #202124;      /* Negro base (Nunca usar #000) */
+  --g-text-title: #3c4043;     /* Gris oscuro para títulos */
+  --g-text-muted: #5f6368;     /* Gris medio para subtítulos y placeholders */
+  --font-family-base: 'Roboto', system-ui, -apple-system, sans-serif;
+
+  /* 4. FORMAS Y BORDES (Radii) */
+  --radius-md: 0.5rem;         /* Tarjetas y Modales (8px) */
+  --radius-lg: 1rem;           /* Modales y Alertas (16px) */
+  --radius-xl: 1.5rem;         /* Modales grandes (24px) */
+  --radius-pill: 50rem;        /* Botones y Badges redondos */
+
+  /* ==========================================
+     TEMA OSCURO - SIDEBAR CLÁSICO
+     ========================================== */
+  --color-sidebar: #212529;         /* Fondo principal del menú (Gris muy oscuro) */
+  --color-sidebar-hover: #343a40;   /* Fondo al pasar el mouse o elementos activos */
+  --color-sidebar-text: #ffffff;    /* Color del texto principal */
+  --color-sidebar-subtext: #adb5bd; /* Texto secundario (gris claro) */
+  --color-primary: #1a73e8;         /* Azul Google (Para mantener sincronía con el resto) */
+  --color-rose: #f28b82;            /* Rojo suave para el botón de cerrar sesión */
+}
+
+/* ==========================================
+   RESET Y BASE
+   ========================================== */
+body {
+  font-family: var(--font-family-base);
+  background-color: var(--g-bg);
+  color: var(--g-text-main);
+}
+
+/* Contenedor Maestro para alinear contenido */
+.container-limit {
+  max-width: 1400px;
+  margin-left: auto;
+  margin-right: auto;
+  width: 100%;
+}
+
+/* ==========================================
+   TIPOGRAFÍA
+   ========================================== */
+.page-title {
+  color: var(--g-text-title);
+  font-size: 1.25rem;
+  font-weight: 500;
+  letter-spacing: 0px;
+}
+
+.text-google-title { color: var(--g-text-title); font-weight: 500; }
+.text-google-muted { color: var(--g-text-muted); }
+
+/* ==========================================
+   TARJETAS Y CONTENEDORES (Cards)
+   ========================================== */
+.card-google {
+  background-color: var(--g-surface);
+  border: 1px solid var(--g-border);
+  border-radius: var(--radius-md);
+  box-shadow: none; /* Google ya no usa sombras en tarjetas base */
+}
+
+.alert-google {
+  background-color: var(--g-surface);
+  border: 1px solid transparent;
+  border-radius: var(--radius-lg);
+  transition: background-color 0.2s ease;
+}
+.alert-google:hover { background-color: #f1f3f4; }
+
+/* ==========================================
+   BOTONES (Botones Píldora Material 3)
+   ========================================== */
+.btn-google-primary {
+  background-color: var(--g-primary);
+  color: #fff;
+  border: none;
+  border-radius: var(--radius-pill);
+  font-weight: 500;
+  padding: 0.5rem 1.25rem;
+  transition: all 0.2s;
+}
+.btn-google-primary:hover {
+  background-color: var(--g-primary-hover);
+  color: #fff;
+  box-shadow: 0 1px 3px rgba(26, 115, 232, 0.4);
+}
+
+.btn-google-light {
+  background-color: transparent;
+  color: var(--g-primary);
+  border: 1px solid var(--g-border);
+  border-radius: var(--radius-pill);
+  font-weight: 500;
+  padding: 0.5rem 1.25rem;
+}
+.btn-google-light:hover {
+  background-color: var(--g-primary-soft);
+  border-color: transparent;
+}
+
+/* ==========================================
+   BADGES (Etiquetas de color tonal)
+   ========================================== */
+.badge-tonal-success { background-color: var(--g-success-soft); color: var(--g-success); }
+.badge-tonal-primary { background-color: var(--g-primary-soft); color: var(--g-primary); }
+.badge-tonal-danger  { background-color: var(--g-danger-soft); color: var(--g-danger); }
+.badge-tonal-warning { background-color: var(--g-warning-soft); color: var(--g-warning-dark); }
+.badge-tonal-inactive{ background-color: #f1f3f4; color: var(--g-text-muted); }
+
+/* ==========================================
+   TABLAS
+   ========================================== */
+.table-google > :not(caption) > * > * {
+  border-bottom-color: #f1f3f4;
+  padding: 1rem 1.5rem;
+  vertical-align: middle;
+  color: var(--g-text-main);
+}
+.table-google thead th {
+  color: var(--g-text-muted);
+  font-weight: 500;
+  border-bottom: 1px solid var(--g-border);
+}
+
+/* ==========================================
+   FORMULARIOS Y BUSCADORES
+   ========================================== */
+.search-google {
+  background-color: #f1f3f4;
+  border: 1px solid transparent;
+  border-radius: var(--radius-pill);
+  padding: 0.6rem 1.2rem;
+  transition: all 0.2s ease;
+}
+.search-google:focus-within {
+  background-color: var(--g-surface);
+  border-color: var(--g-primary);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+.search-google input {
+  background: transparent;
+  border: none;
+  outline: none;
+  width: 100%;
+  color: var(--g-text-main);
+}
+.search-google input::placeholder { color: var(--g-text-muted); }
+
+.form-control-google {
+  border: 1px solid var(--g-border);
+  border-radius: var(--radius-md);
+  padding: 0.6rem 1rem;
+  color: var(--g-text-main);
+}
+.form-control-google:focus {
+  border-color: var(--g-primary);
+  box-shadow: 0 0 0 2px rgba(26,115,232,0.2);
+  outline: none;
+}
+
+/* ==========================================
+   MODALES
+   ========================================== */
+.modal-content-google {
+  border-radius: var(--radius-xl);
+  border: none;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+}

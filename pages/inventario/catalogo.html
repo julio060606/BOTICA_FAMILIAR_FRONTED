@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Catálogo - Botica Familiar</title>
+  
+  <!-- Bootstrap 5 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/css/main.css">
+
+  <style>
+    /* Estilos Google Modern (Material 3) */
+    body { background-color: #f8f9fa; color: #202124; }
+    .border-google { border: 1px solid #dadce0 !important; }
+    .text-google-title { color: #3c4043; font-weight: 500; }
+    .text-google-muted { color: #5f6368; }
+    
+    /* Buscador estilo Google Drive */
+    .search-google {
+      background-color: #f1f3f4;
+      border: 1px solid transparent;
+      border-radius: 24px; /* Pill shape */
+      padding: 0.5rem 1rem;
+      transition: all 0.2s ease;
+    }
+    .search-google:focus-within {
+      background-color: #ffffff;
+      border-color: #1a73e8;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    }
+    .search-google input {
+      background: transparent;
+      border: none;
+      outline: none;
+      width: 100%;
+      color: #202124;
+    }
+    .search-google input::placeholder { color: #5f6368; }
+
+    /* Badges Tonales (Material 3) */
+    .badge-tonal-success { background-color: #e6f4ea; color: #137333; }
+    .badge-tonal-inactive { background-color: #f1f3f4; color: #5f6368; }
+    
+    /* Tablas limpias */
+    .table-google > :not(caption) > * > * {
+      border-bottom-color: #f1f3f4;
+      padding: 1rem 1.5rem;
+      vertical-align: middle;
+    }
+    
+    /* Modales redondeados */
+    .modal-content-google {
+      border-radius: 1.5rem; /* Curva más suave */
+      border: none;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    }
+    .form-control-google {
+      border: 1px solid #dadce0;
+      border-radius: 0.5rem;
+      padding: 0.6rem 1rem;
+    }
+    .form-control-google:focus {
+      border-color: #1a73e8;
+      box-shadow: 0 0 0 2px rgba(26,115,232,0.2);
+    }
+  </style>
+</head>
+<body class="app">
+
+  <div class="d-flex" style="height: 100vh; overflow: hidden;">
+    <!-- SIDEBAR -->
+    <div id="sidebar-container"></div>
+
+    <div class="flex-grow-1 d-flex flex-column" style="overflow: hidden;">
+      <!-- NAVBAR -->
+      <div id="navbar-container"></div>
+
+      <!-- MAIN CONTENT -->
+      <main class="flex-grow-1" style="overflow-y: auto;">
+        
+        <div class="container-limit px-4 py-4 mx-auto" style="max-width: 1400px;">
+
+          <!-- HEADER DE PÁGINA -->
+          <div class="d-flex justify-content-between align-items-center mb-4">
+            <div>
+              <h1 class="page-title m-0">Catálogo de Productos</h1>
+              <p class="small text-google-muted mt-1 m-0">Administra el maestro de medicamentos y combos</p>
+
+            </div>
+
+            <!--AQUI UNO TIENE QUE BUSCAR EL ID O MODAL DEL BOTON EN ESTE CASO, y ubicado el id correspondiente, ya sabes-->
+            <button class="btn btn-primary rounded-pill px-4 py-2 fw-medium shadow-sm d-flex align-items-center gap-2" 
+                    data-bs-toggle="modal" data-bs-target="#modalNuevoProducto"
+                    style="background-color: #1a73e8; border-color: #1a73e8;">
+              <span style="font-size: 1.2rem; line-height: 1;">+</span> Nuevo Producto
+            </button>
+          </div>
+
+          <!--AQUI ID BUSCADOR-->
+          <!-- BARRA DE HERRAMIENTAS (Buscador y Filtros) -->
+          <div class="card rounded-3 border-google shadow-none mb-4 p-2 bg-white">
+            <div class="row g-2 align-items-center">
+              <!-- Buscador Principal -->
+              <div class="col-lg-6">
+                <div class="search-google d-flex align-items-center gap-2">
+                  <svg width="18" height="18" fill="#5f6368" viewBox="0 0 16 16"><path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/></svg>
+                  <input type="text" placeholder="Buscar por SKU, nombre comercial o principio activo...">
+                </div>
+              </div>
+              
+              <!-- Filtros Rápidos -->
+              <div class="col-lg-3">
+                <select class="form-select border-google rounded-pill text-google-muted small" style="box-shadow: none;">
+                  <option selected>Todas las categorías</option>
+                  <option>Analgésicos</option>
+                  <option>Antibióticos</option>
+                  <option>Combos Promocionales</option>
+                </select>
+              </div>
+              <div class="col-lg-3">
+                <select class="form-select border-google rounded-pill text-google-muted small" style="box-shadow: none;">
+                  <option selected>Estado: Activos</option>
+                  <option>Inactivos (Ocultos en POS)</option>
+                  <option>Mostrar Todos</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <!--SI NO TIENE ID, DEBES CREAR UNO SEGUN NECESITE-->
+          <!-- TABLA DE CATÁLOGO -->
+          <div class="card rounded-3 border-google shadow-none">
+            <div class="table-responsive mb-0">
+              <table class="table table-hover align-middle m-0 table-google">
+                <thead>
+                  <tr class="small" style="color: #5f6368;">
+                    <th class="fw-medium">SKU</th>
+                    <th class="fw-medium">Detalle del Producto</th>
+                    <th class="fw-medium">Categoría</th>
+                    <th class="fw-medium text-end">Costo</th>
+                    <th class="fw-medium text-end">Venta</th>
+                    <th class="fw-medium text-center">Stock Mín.</th>
+                    <th class="fw-medium text-center">Estado</th>
+                    <th class="fw-medium text-end">Acciones</th>
+                  </tr>
+                </thead>
+                <tbody class="border-top-0">
+                  
+                  <!-- Fila 1: Producto Normal -->
+                  <tr>
+                    <td class="text-google-muted small font-monospace">7751234001</td>
+                    <td>
+                      <div class="fw-medium text-google-title">Paracetamol 500mg</div>
+                      <div class="small mt-1" style="color: #5f6368;">Blíster x 10 und - Genfar</div>
+                    </td>
+                    <td><span class="badge border-google text-google-muted bg-white fw-normal rounded-pill px-3 py-2">Analgésicos</span></td>
+                    <td class="text-end text-google-muted">S/ 0.80</td>
+                    <td class="text-end fw-medium" style="color: #1e8e3e;">S/ 1.50</td>
+                    <td class="text-center fw-medium text-google-muted">20</td>
+                    <td class="text-center">
+                      <span class="badge badge-tonal-success rounded-pill px-3 py-2 fw-medium">Activo</span>
+                    </td>
+                    <td class="text-end">
+                      <button class="btn btn-sm text-primary fw-medium rounded-pill px-3" data-bs-toggle="modal" data-bs-target="#modalEditarProducto" style="background-color: #e8f0fe;">Editar</button>
+                    </td>
+                  </tr>
+
+                  <!-- Fila 2: Producto Inactivo -->
+                  <tr>
+                    <td class="text-google-muted small font-monospace">7751239999</td>
+                    <td>
+                      <div class="fw-medium text-google-muted text-decoration-line-through">Mascarilla Quirúrgica 3 Pliegues</div>
+                      <div class="small mt-1 text-google-muted">Caja x 50 und - Descontinuado</div>
+                    </td>
+                    <td><span class="badge border-google text-google-muted bg-white fw-normal rounded-pill px-3 py-2">Accesorios</span></td>
+                    <td class="text-end text-google-muted">S/ 12.00</td>
+                    <td class="text-end fw-medium text-google-muted">S/ 25.00</td>
+                    <td class="text-center fw-medium text-google-muted">5</td>
+                    <td class="text-center">
+                      <span class="badge badge-tonal-inactive rounded-pill px-3 py-2 fw-medium">Inactivo</span>
+                    </td>
+                    <td class="text-end">
+                      <button class="btn btn-sm text-google-muted fw-medium rounded-pill px-3 bg-light" data-bs-toggle="modal" data-bs-target="#modalEditarProducto">Editar</button>
+                    </td>
+                  </tr>
+
+                </tbody>
+              </table>
+            </div>
+            
+            <!-- Paginación -->
+            <div class="card-footer bg-white border-top-0 py-3 d-flex justify-content-between align-items-center rounded-bottom-3">
+              <span class="small text-google-muted">Mostrando 1-10 de 450 productos</span>
+              <div class="d-flex gap-2">
+                <button class="btn btn-sm btn-light rounded-pill px-3 fw-medium text-google-muted border-google">Anterior</button>
+                <button class="btn btn-sm rounded-pill px-3 fw-medium text-primary" style="background-color: #e8f0fe;">1</button>
+                <button class="btn btn-sm btn-light rounded-pill px-3 fw-medium text-google-muted border-google">2</button>
+                <button class="btn btn-sm btn-light rounded-pill px-3 fw-medium text-google-muted border-google">Siguiente</button>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <!---->
+  <div id="modal-editar-producto-container"></div>
+  <div id="modal-nuevo-producto-container"></div>
+
+  <script src="/assets/js/inyector.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

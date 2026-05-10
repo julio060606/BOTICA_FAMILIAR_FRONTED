@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Centro de Alertas - Botica Familiar</title>
+  
+  <!-- Bootstrap 5 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Sistema de Diseño Maestro -->
+  <link rel="stylesheet" href="/assets/css/variables.css">
+
+  <style>
+    /* Estilo de Pestañas Google (Material 3) */
+    .nav-tabs-google {
+      border-bottom: 1px solid var(--g-border);
+    }
+    .nav-tabs-google .nav-link {
+      border: none;
+      border-bottom: 3px solid transparent;
+      color: var(--g-text-muted);
+      font-weight: 500;
+      padding: 1rem 1.5rem;
+      border-radius: 0;
+      transition: all 0.2s ease;
+    }
+    .nav-tabs-google .nav-link:hover {
+      background-color: rgba(26, 115, 232, 0.04);
+      color: var(--g-primary);
+    }
+    .nav-tabs-google .nav-link.active {
+      color: var(--g-primary);
+      border-bottom-color: var(--g-primary);
+      background-color: transparent;
+    }
+  </style>
+  
+</head>
+<body class="app">
+
+  <div class="d-flex" style="height: 100vh; overflow: hidden;">
+    <!-- SIDEBAR -->
+    <div id="sidebar-container"></div>
+
+    <div class="flex-grow-1 d-flex flex-column" style="overflow: hidden;">
+      <!-- NAVBAR -->
+      <div id="navbar-container"></div>
+
+      <!-- MAIN CONTENT -->
+      <main class="flex-grow-1" style="overflow-y: auto;">
+        
+        <div class="container-limit px-4 py-4">
+
+          <!-- HEADER DE SECCIÓN -->
+          <div class="d-flex justify-content-between align-items-center mb-4">
+            <div>
+              <h1 class="page-title m-0">Centro de Acción y Alertas</h1>
+              <p class="small text-google-muted mt-1 m-0">Gestión de stock crítico y lotes próximos a vencer</p>
+            </div>
+            <div class="d-flex gap-3">
+               <!-- Buscador específico para alertas -->
+               <div class="search-google d-none d-md-flex align-items-center gap-2" style="width: 300px;">
+                 <svg width="18" height="18" fill="var(--g-text-muted)" viewBox="0 0 16 16"><path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/></svg>
+                 <input type="text" placeholder="Buscar producto o SKU...">
+               </div>
+            </div>
+          </div>
+
+          <!-- CONTENEDOR PRINCIPAL DE ALERTAS -->
+          <div class="card card-google overflow-hidden">
+            
+            <!-- Pestañas de Filtrado -->
+            <ul class="nav nav-tabs-google bg-white" id="alertasTabs" role="tablist">
+              <li class="nav-item" role="presentation">
+                <button class="nav-link active d-flex align-items-center gap-2" data-bs-toggle="tab" data-bs-target="#tab-critico">
+                  Stock Crítico <span class="badge badge-tonal-danger rounded-pill">12</span>
+                </button>
+              </li>
+              <li class="nav-item" role="presentation">
+                <button class="nav-link d-flex align-items-center gap-2" data-bs-toggle="tab" data-bs-target="#tab-vencer">
+                  Por Vencer (90 días) <span class="badge badge-tonal-warning rounded-pill">5</span>
+                </button>
+              </li>
+              <li class="nav-item" role="presentation">
+                <button class="nav-link d-flex align-items-center gap-2" data-bs-toggle="tab" data-bs-target="#tab-info">
+                  Información <span class="badge badge-tonal-primary rounded-pill">2</span>
+                </button>
+              </li>
+            </ul>
+
+            <!-- Contenido de las Pestañas -->
+            <div class="tab-content bg-white">
+              
+              <!-- PESTAÑA: STOCK CRÍTICO (Rojas) -->
+              <div class="tab-pane fade show active" id="tab-critico" role="tabpanel">
+                <div class="list-group list-group-flush">
+                  
+                  <!-- Alerta Crítica 1 (Agotado) -->
+                  <div class="list-group-item d-flex align-items-sm-center align-items-start gap-3 p-4 border-bottom">
+                    <div class="rounded-circle d-flex align-items-center justify-content-center flex-shrink-0" 
+                         style="width: 48px; height: 48px; background-color: var(--g-danger-soft); color: var(--g-danger);">
+                      <span class="fs-5">🚨</span>
+                    </div>
+                    <div class="flex-grow-1">
+                      <div class="d-flex justify-content-between align-items-center mb-1">
+                        <h6 class="text-google-title m-0 fw-bold">Ibuprofeno 400mg - Agotado</h6>
+                        <span class="small text-google-muted">Hace 2 horas</span>
+                      </div>
+                      <p class="small text-google-muted m-0">El stock actual es <strong>0 unidades</strong> (Mínimo establecido: 10). Se requiere reposición urgente para evitar pérdida de ventas.</p>
+                      <div class="d-flex gap-3 mt-2 small">
+                        <span class="text-google-title">SKU: <span class="font-monospace text-google-muted">7751234001</span></span>
+                        <span class="text-google-title">Proveedor: <span class="text-google-muted">Laboratorios Genfar</span></span>
+                      </div>
+                    </div>
+                    <div class="d-flex flex-column gap-2 ms-sm-3 mt-3 mt-sm-0 flex-shrink-0">
+                      <button class="btn btn-sm btn-google-primary px-3">Generar Compra</button>
+                      <button class="btn btn-sm btn-google-light px-3">Ignorar</button>
+                    </div>
+                  </div>
+
+                  <!-- Alerta Crítica 2 (Bajo Mínimo) -->
+                  <div class="list-group-item d-flex align-items-sm-center align-items-start gap-3 p-4 border-bottom">
+                    <div class="rounded-circle d-flex align-items-center justify-content-center flex-shrink-0" 
+                         style="width: 48px; height: 48px; background-color: var(--g-danger-soft); color: var(--g-danger);">
+                      <span class="fs-5">📉</span>
+                    </div>
+                    <div class="flex-grow-1">
+                      <div class="d-flex justify-content-between align-items-center mb-1">
+                        <h6 class="text-google-title m-0 fw-bold">Mascarillas N95 - Stock Bajo</h6>
+                        <span class="small text-google-muted">Ayer</span>
+                      </div>
+                      <p class="small text-google-muted m-0">El stock actual es <strong>4 unidades</strong> (Mínimo establecido: 20). Queda poco inventario disponible en mostrador.</p>
+                      <div class="d-flex gap-3 mt-2 small">
+                        <span class="text-google-title">SKU: <span class="font-monospace text-google-muted">7758839200</span></span>
+                        <span class="text-google-title">Categoría: <span class="text-google-muted">Accesorios Médicos</span></span>
+                      </div>
+                    </div>
+                    <div class="d-flex flex-column gap-2 ms-sm-3 mt-3 mt-sm-0 flex-shrink-0">
+                      <button class="btn btn-sm btn-google-primary px-3">Generar Compra</button>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+
+              <!-- PESTAÑA: POR VENCER (Amarillas) -->
+              <div class="tab-pane fade" id="tab-vencer" role="tabpanel">
+                <div class="list-group list-group-flush">
+                  
+                  <!-- Alerta Amarilla 1 -->
+                  <div class="list-group-item d-flex align-items-sm-center align-items-start gap-3 p-4 border-bottom">
+                    <div class="rounded-circle d-flex align-items-center justify-content-center flex-shrink-0" 
+                         style="width: 48px; height: 48px; background-color: var(--g-warning-soft); color: var(--g-warning-dark);">
+                      <span class="fs-5">⏳</span>
+                    </div>
+                    <div class="flex-grow-1">
+                      <div class="d-flex justify-content-between align-items-center mb-1">
+                        <h6 class="text-google-title m-0 fw-bold">Amoxicilina 500mg - Vence en 30 días</h6>
+                        <span class="small" style="color: var(--g-warning-dark);">Prioridad Media</span>
+                      </div>
+                      <p class="small text-google-muted m-0">Hay <strong>25 unidades</strong> del lote <span class="font-monospace fw-bold">LT-202488</span> que caducarán el 04 de Junio de 2026.</p>
+                      <div class="d-flex gap-3 mt-2 small">
+                        <span class="text-google-title">SKU: <span class="font-monospace text-google-muted">7759902011</span></span>
+                        <span class="text-google-title">Costo en Riesgo: <span class="text-danger fw-bold">S/ 120.00</span></span>
+                      </div>
+                    </div>
+                    <div class="d-flex flex-column gap-2 ms-sm-3 mt-3 mt-sm-0 flex-shrink-0">
+                      <button class="btn btn-sm px-3 fw-medium" style="background-color: var(--g-warning-soft); color: var(--g-warning-dark); border: none; border-radius: var(--radius-pill);">Crear Promoción</button>
+                      <button class="btn btn-sm btn-google-light px-3">Ver Kardex</button>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+
+              <!-- PESTAÑA: INFORMACIÓN GENERAL (Azules/Verdes) -->
+              <div class="tab-pane fade" id="tab-info" role="tabpanel">
+                <div class="list-group list-group-flush">
+                  
+                  <!-- Alerta Info 1 -->
+                  <div class="list-group-item d-flex align-items-sm-center align-items-start gap-3 p-4 border-bottom">
+                    <div class="rounded-circle d-flex align-items-center justify-content-center flex-shrink-0" 
+                         style="width: 48px; height: 48px; background-color: var(--g-primary-soft); color: var(--g-primary);">
+                      <span class="fs-5">✅</span>
+                    </div>
+                    <div class="flex-grow-1">
+                      <div class="d-flex justify-content-between align-items-center mb-1">
+                        <h6 class="text-google-title m-0 fw-bold">Cierre de Caja Exitoso</h6>
+                        <span class="small text-google-muted">Ayer a las 22:30</span>
+                      </div>
+                      <p class="small text-google-muted m-0">El turno tarde cerró caja con un cuadro perfecto. No se registraron faltantes ni sobrantes.</p>
+                      <div class="d-flex gap-3 mt-2 small">
+                        <span class="text-google-title">Cajero: <span class="text-google-muted">Maria Lopez</span></span>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+
+            </div>
+          </div>
+          
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <script src="/assets/js/inyector.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

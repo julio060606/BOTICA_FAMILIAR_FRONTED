@@ -1,0 +1,88 @@
+<!-- ========================================== -->
+<!-- MODAL: AGREGAR PRODUCTO A INGRESO          -->
+<!-- ========================================== -->
+<div class="modal fade" id="modalAgregarIngreso" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content modal-content-google">
+
+      <div class="modal-header border-bottom-0 pt-4 px-4 pb-0">
+        <h5 class="modal-title fw-medium text-google-title fs-5">Agregar Producto al Documento</h5>
+        <button type="button" class="btn-close shadow-none" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+
+      <div class="modal-body p-4">
+        <form>
+
+          <!-- Buscador de Producto (Conectado a JS) -->
+          <div class="mb-4">
+            <label class="form-label small fw-medium text-google-title">Buscar Producto en Catálogo *</label>
+            <div class="search-google d-flex align-items-center gap-2"
+              style="border: 1px solid var(--g-primary); padding: 0.4rem 0.8rem; border-radius: var(--radius-md);">
+              <span>🔍</span>
+
+              <!-- Este es el nuevo input que permite escribir -->
+              <input list="lista-productos" id="ing-modal-producto-input" class="form-control border-0 shadow-none p-1"
+                style="background: transparent;" placeholder="Escribe el nombre del producto...">
+
+              <!-- Aquí es donde JavaScript inyectará las opciones invisibles -->
+              <datalist id="lista-productos"></datalist>
+
+            </div>
+          </div>
+
+          <div class="row g-3 mb-4">
+            <!-- Lote (Conectado a JS) -->
+            <div class="col-md-6">
+              <label class="form-label small fw-medium text-google-title">Lote de Producción *</label>
+              <input type="text" id="ing-modal-lote" class="form-control form-control-google text-uppercase"
+                placeholder="Ej. LT-84920">
+            </div>
+            <!-- Vencimiento (Conectado a JS) -->
+            <div class="col-md-6">
+              <label class="form-label small fw-medium text-google-title">Fecha de Vencimiento *</label>
+              <input type="month" id="ing-modal-vencimiento" class="form-control form-control-google">
+              <div class="form-text" style="font-size: 0.7rem;">Solo requiere Mes y Año.</div>
+            </div>
+          </div>
+
+          <h6 class="fw-medium text-google-muted mb-3"
+            style="font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.5px;">Cantidades y Costos</h6>
+
+          <div class="row g-3">
+            <!-- Cantidad que ingresa (Conectado a JS) -->
+            <div class="col-md-6">
+              <label class="form-label small fw-medium text-google-title">Cantidad a Ingresar *</label>
+              <div class="input-group">
+                <input type="number" id="ing-modal-cantidad" class="form-control form-control-google"
+                  style="border-right: none; border-radius: var(--radius-md) 0 0 var(--radius-md);" placeholder="0">
+                <span class="input-group-text bg-light border-google text-google-muted"
+                  style="border-left: none; border-radius: 0 var(--radius-md) var(--radius-md) 0;">Unidades</span>
+              </div>
+            </div>
+
+            <!-- Precio de Costo (Conectado a JS) -->
+            <div class="col-md-6">
+              <label class="form-label small fw-medium text-google-title">Costo Unitario (S/)</label>
+              <div class="input-group">
+                <span class="input-group-text bg-light border-google text-google-muted"
+                  style="border-right: none; border-radius: var(--radius-md) 0 0 var(--radius-md);">S/</span>
+                <input type="number" step="0.01" id="ing-modal-costo" class="form-control form-control-google"
+                  style="border-left: none; border-radius: 0 var(--radius-md) var(--radius-md) 0;" placeholder="0.00">
+              </div>
+            </div>
+          </div>
+
+        </form>
+      </div>
+
+      <div class="modal-footer border-top-0 pt-0 px-4 pb-4 d-flex justify-content-end gap-2">
+        <button type="button" class="btn text-google-muted fw-medium rounded-pill px-4"
+          data-bs-dismiss="modal">Cancelar</button>
+        <!-- Botón de Agregar (Conectado a JS) -->
+        <button type="button" id="btn-agregar-modal" onclick="agregarDesdeModal()"
+          class="btn btn-google-primary px-4 shadow-sm">Agregar a la tabla</button>
+      </div>
+
+    </div>
+  </div>
+</div>

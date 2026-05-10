@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Control de Caja - Botica Familiar</title>
+  
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/css/variables.css">
+</head>
+<body class="app">
+
+  <div class="d-flex" style="height: 100vh; overflow: hidden;">
+    <div id="sidebar-container"></div>
+
+    <div class="flex-grow-1 d-flex flex-column" style="overflow: hidden;">
+      <div id="navbar-container"></div>
+
+      <!-- MAIN CONTENT -->
+      <main class="flex-grow-1" style="overflow-y: auto;">
+        
+        <div class="container-limit px-4 py-4">
+
+          <!-- HEADER DE SECCIÓN CON ESTADO DE CAJA -->
+          <div class="d-flex justify-content-between align-items-center mb-4 pb-2">
+            <div>
+              <div class="d-flex align-items-center gap-3">
+                <h1 class="page-title m-0">Control de Caja y Arqueo</h1>
+                <span class="badge badge-tonal-success rounded-pill px-3 py-1 border border-success border-opacity-25">Caja Abierta</span>
+              </div>
+              <p class="small text-google-muted mt-1 m-0">Turno actual: 04 de Mayo, 08:00 AM - Julio Minaya</p>
+            </div>
+            <div class="d-flex gap-2">
+               <!-- Botón para registrar un gasto o ingreso manual -->
+               <button class="btn btn-google-light d-flex align-items-center gap-2 fw-medium" data-bs-toggle="modal" data-bs-target="#modalMovimientoCaja">
+                 <span>💸</span> Ingreso / Egreso Manual
+               </button>
+            </div>
+          </div>
+
+          <div class="row g-4">
+            
+            <!-- ========================================== -->
+            <!-- COLUMNA IZQUIERDA: RESUMEN FINANCIERO      -->
+            <!-- ========================================== -->
+            <div class="col-lg-4 d-flex flex-column gap-4">
+              
+              <!-- Tarjeta de Arqueo en Tiempo Real -->
+              <div class="card card-google p-4 border-0" style="background-color: var(--g-primary-soft);">
+                <h6 class="fw-bold mb-4" style="color: var(--g-primary);">Resumen del Turno</h6>
+                
+                <div class="d-flex flex-column gap-3 mb-4">
+                  <div class="d-flex justify-content-between align-items-center">
+                    <span class="small text-google-title fw-medium">Saldo Inicial (Apertura)</span>
+                    <span class="fw-medium text-google-title">S/ 150.00</span>
+                  </div>
+                  
+                  <div class="d-flex justify-content-between align-items-center">
+                    <span class="small text-google-title fw-medium">Ventas en Efectivo</span>
+                    <span class="fw-medium" style="color: var(--g-success);">+ S/ 450.50</span>
+                  </div>
+
+                  <div class="d-flex justify-content-between align-items-center">
+                    <span class="small text-google-title fw-medium">Ingresos Manuales</span>
+                    <span class="fw-medium" style="color: var(--g-success);">+ S/ 50.00</span>
+                  </div>
+
+                  <div class="d-flex justify-content-between align-items-center">
+                    <span class="small text-google-title fw-medium">Egresos Manuales</span>
+                    <span class="fw-medium text-danger">- S/ 15.00</span>
+                  </div>
+                </div>
+
+                <div class="pt-3 border-top" style="border-color: rgba(26, 115, 232, 0.2) !important;">
+                  <div class="small text-google-title fw-bold text-uppercase mb-1">Saldo Esperado en Caja</div>
+                  <div class="fs-1 fw-bold" style="color: var(--g-primary); line-height: 1;">S/ 635.50</div>
+                  <div class="small text-google-muted mt-2">Este es el monto físico que debe haber en la gaveta.</div>
+                </div>
+              </div>
+
+              <!-- Ventas por otros medios (No suman al efectivo físico) -->
+              <div class="card card-google p-4">
+                <h6 class="text-google-title fw-medium mb-3 fs-6">Ventas por Otros Medios</h6>
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                  <span class="small text-google-muted d-flex align-items-center gap-2"><span>💳</span> Tarjeta / POS</span>
+                  <span class="fw-medium text-google-title">S/ 320.00</span>
+                </div>
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                  <span class="small text-google-muted d-flex align-items-center gap-2"><span>📱</span> Yape / Plin</span>
+                  <span class="fw-medium text-google-title">S/ 180.00</span>
+                </div>
+              </div>
+
+              <!-- Botón de Cierre de Caja -->
+              <button class="btn btn-google-primary w-100 py-3 fs-5 fw-bold shadow-sm" data-bs-toggle="modal" data-bs-target="#modalCerrarCaja">
+                🔒 Cerrar Turno y Caja
+              </button>
+
+            </div>
+
+            <!-- ========================================== -->
+            <!-- COLUMNA DERECHA: HISTORIAL DE MOVIMIENTOS  -->
+            <!-- ========================================== -->
+            <div class="col-lg-8">
+              <div class="card card-google d-flex flex-column h-100">
+                
+                <div class="card-header bg-transparent py-3 border-bottom d-flex justify-content-between align-items-center">
+                  <span class="text-google-title fw-medium">Flujo de Caja (Día Actual)</span>
+                  <button class="btn btn-sm btn-google-light border-0 text-primary fw-medium">Exportar a Excel</button>
+                </div>
+                
+                <div class="table-responsive flex-grow-1">
+                  <table class="table table-hover align-middle m-0 table-google">
+                    <thead>
+                      <tr class="small text-google-muted">
+                        <th>Hora</th>
+                        <th>Tipo</th>
+                        <th>Concepto / Referencia</th>
+                        <th class="text-end">Monto</th>
+                      </tr>
+                    </thead>
+                    <tbody class="border-top-0">
+                      
+                      <!-- Movimiento: Apertura -->
+                      <tr>
+                        <td class="text-google-muted small">08:00 AM</td>
+                        <td><span class="badge badge-tonal-primary rounded-pill px-3">Apertura</span></td>
+                        <td class="text-google-title">Fondo de caja inicial</td>
+                        <td class="text-end fw-bold text-google-title">S/ 150.00</td>
+                      </tr>
+
+                      <!-- Movimiento: Venta Efectivo -->
+                      <tr>
+                        <td class="text-google-muted small">09:15 AM</td>
+                        <td><span class="badge badge-tonal-success rounded-pill px-3">Venta Efectivo</span></td>
+                        <td class="text-google-title">Ticket T001-0082</td>
+                        <td class="text-end fw-bold text-success">+ S/ 12.50</td>
+                      </tr>
+
+                      <!-- Movimiento: Egreso Manual -->
+                      <tr>
+                        <td class="text-google-muted small">11:30 AM</td>
+                        <td><span class="badge badge-tonal-danger rounded-pill px-3">Egreso Manual</span></td>
+                        <td class="text-google-title">Pago de pasajes para mensajería</td>
+                        <td class="text-end fw-bold text-danger">- S/ 15.00</td>
+                      </tr>
+
+                      <!-- Movimiento: Ingreso Manual -->
+                      <tr>
+                        <td class="text-google-muted small">12:45 PM</td>
+                        <td><span class="badge badge-tonal-success rounded-pill px-3">Ingreso Manual</span></td>
+                        <td class="text-google-title">Sencillo adicional traído por administrador</td>
+                        <td class="text-end fw-bold text-success">+ S/ 50.00</td>
+                      </tr>
+
+                      <!-- Movimiento: Venta Efectivo -->
+                      <tr>
+                        <td class="text-google-muted small">14:20 PM</td>
+                        <td><span class="badge badge-tonal-success rounded-pill px-3">Venta Efectivo</span></td>
+                        <td class="text-google-title">Ticket T001-0083</td>
+                        <td class="text-end fw-bold text-success">+ S/ 45.00</td>
+                      </tr>
+
+                    </tbody>
+                  </table>
+                </div>
+
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <!-- Contenedores de Modales -->
+  <div id="modal-movimiento-caja-container"></div>
+  <div id="modal-cerrar-caja-container"></div>
+
+  <!-- Scripts -->
+  <script src="/assets/js/inyector.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

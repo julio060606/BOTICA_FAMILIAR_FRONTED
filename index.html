@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Botica Online</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/variables.css">
+  <link rel="stylesheet" href="assets/css/main.css">
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar navbar-expand-lg bg-white shadow-sm">
+  <div class="container">
+    <span class="navbar-brand fw-bold">Botica Salud</span>
+
+    <button class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#loginModal">
+      Iniciar sesión
+    </button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="py-5 text-center">
+  <div class="container">
+    <h1 class="display-5 fw-semibold">Tu salud, nuestra prioridad</h1>
+    <p class="text-muted">Compra medicamentos de forma rápida y segura</p>
+  </div>
+</section>
+
+<!-- PRODUCTOS -->
+<section class="container py-4">
+  <div class="row g-4">
+
+    <div class="col-md-3">
+      <div class="card app-card">
+        <div class="card-body">
+          <h6>Paracetamol</h6>
+          <p class="text-muted">S/ 5.00</p>
+          <button class="btn btn-outline-primary w-100">Comprar</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- repetir productos -->
+
+  </div>
+</section>
+
+<!-- MODAL LOGIN -->
+<div class="modal fade" id="loginModal">
+  <div class="modal-dialog">
+    <div class="modal-content app-modal">
+
+      <div class="modal-header">
+        <h5>Iniciar sesión</h5>
+        <button class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+
+      <div class="modal-body">
+
+        <div class="mb-3">
+          <label>Email</label>
+          <input type="email" class="form-control" id="loginEmail">
+        </div>
+
+        <div class="mb-3">
+          <label>Contraseña</label>
+          <input type="password" class="form-control" id="loginPassword">
+        </div>
+
+      </div>
+
+      <div class="modal-footer">
+        <a href="pages/dashboard.html">
+          Ingresa
+        </a>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
+
+<!--
+
+Esta es la logica del sistema
+
+
+
+1. Dashboard (El Resumen Ejecutivo)
+
+Propósito: Que el administrador sepa cómo va el negocio en 5 segundos.
+
+
+
+Acciones del usuario: Solo visualización y filtrado rápido (Ver "Hoy", "Ayer", "Esta semana").
+
+Datos que extrae (Lectura):
+
+Suma total de S/ vendidos en el día (filtrando ventas válidas, sin contar anuladas).
+
+Cantidad de tickets emitidos.
+
+Top 5 de productos más vendidos hoy.
+
+Alertas automáticas (Visuales):
+
+Rojas: Lista rápida de productos con "Stock Actual <= Stock Mínimo".
+
+Amarillas: Lotes con fecha de caducidad en los próximos 90 días.
+
+🛒 2. Ventas (La Operación Diaria)
+
+El bloque donde el cajero pasa el 90% de su turno.
+
+
+
+POS (Punto de Venta)
+
+Acciones: Escanear SKU, modificar cantidad (+/-), aplicar descuentos manuales (si tiene permiso), seleccionar cliente, elegir medio de pago, cobrar e imprimir ticket.
+
+Datos que ingresa: Código de producto, monto de dinero entregado por el cliente.
+
+Datos que extrae/Maneja: Lee precios y stock en tiempo real del Catálogo.
+
+Impacto en BD: Inserta un registro en la tabla ventas y varios en ventas_detalle. Reduce el stock_actual del inventario.
+
+Historial de Tickets
+
+Acciones: Buscar tickets pasados (por número o fecha), ver el detalle de qué se llevó el cliente, reimprimir voucher, y Anular Venta.
+
+Datos que muestra: Tabla con: Nro. Ticket, Fecha/Hora, Cliente, Total S/, Medio de Pago, Cajero, Estado (Válido/Anulado).
+
+Impacto en BD: Al anular, cambia el estado del ticket a "Anulado" y hace un UPDATE en el inventario para devolver el stock a las vitrinas.
+
+Control de Caja (Arqueo)
+
+Acciones: "Abrir Caja" al inicio del turno, registrar ingresos/egresos manuales (ej. Ingreso: "Sencillo adicional S/50" / Egreso: "Pasajes S/10"), y "Cerrar Caja".
+
+Datos que ingresa: Montos de dinero físico contado por el cajero, conceptos de gastos.
+
+Datos que extrae/Calcula: El sistema suma el (Saldo Inicial + Ventas en Efectivo - Egresos) e indica si al cajero le Falta o le Sobra dinero.
+
+📦 3. Inventario (El Almacén y Catálogo)
+
+Donde mantienes el negocio abastecido y ordenado.
+
+
+
+Catálogo de Productos
+
+Acciones: Crear, editar, inactivar medicamentos. Armar "Combos" virtuales.
+
+Datos que ingresa: SKU (o autogenerado), Nombre completo, Categoría, Precio de Costo, Precio de Venta, Stock Mínimo.
+
+Datos que muestra: Tabla gigante con buscador rápido para ver todo lo que existe en la botica, con un switch para ocultar lo que está inactivo.
+
+Ingreso de Mercadería (Compras)
+
+Acciones: Registrar la llegada de una nueva factura del laboratorio/droguería para aumentar el stock.
+
+Datos que ingresa: Nro. Factura del proveedor, Selección del producto, Cantidad que llegó, Nuevo Lote, Fecha de Vencimiento, y si el precio de costo cambió.
+
+Impacto en BD: Aumenta el stock_actual en el Catálogo y guarda el nuevo Lote.
+
+Kardex (Auditoría Intocable)
+
+Acciones: Buscar un producto específico (ej. Paracetamol) y ver todo su historial. Es solo lectura, nadie puede borrar nada de aquí.
+
+Datos que muestra: Una tabla que lista: Fecha/Hora, Tipo de Movimiento (Entrada por Compra, Salida por Venta, Entrada por Anulación, Salida por Vencimiento), Cantidad movida, Saldo Final, y qué Usuario lo hizo.
+
+📊 4. Reportes (Inteligencia del Negocio)
+
+Herramientas para tomar decisiones de compra.
+
+
+
+Ventas y Utilidades
+
+Acciones: Filtrar por rango de fechas y exportar a Excel.
+
+Datos que extrae/Calcula: Agrupa las ventas y resta (Total Ventas - Costo de Compra) para mostrar la Ganancia Neta (Utilidad) de la botica en ese mes.
+
+Próximos a Vencer
+
+Acciones: Filtrar lotes que vencen en 1, 3 o 6 meses.
+
+Datos que muestra: SKU, Nombre, Lote exacto, Fecha de Caducidad y cuántas unidades físicas corren el riesgo de perderse para poder armar promociones urgentes.
+
+⚙️ 5. Configuración (Las Reglas del Juego)
+
+Acceso exclusivo para el dueño o administrador.
+
+
+
+Usuarios y Permisos
+
+Acciones: Crear cuentas para los empleados, cambiar contraseñas, inactivar extrabajadores.
+
+Datos que ingresa: Nombres, Usuario, Contraseña (se guarda encriptada), Rol (Cajero o Administrador).
+
+Empresa y SUNAT
+
+Acciones: Configurar los datos de los tickets y la facturación.
+
+Datos que ingresa: RUC de tu empresa, Razón Social, Dirección, Logo (imagen), Token de seguridad de la SUNAT, y los correlativos iniciales (ej. Boleta B001-0001, Factura F001-0001).
+
+
+
+Suguiendo el modelo visual que se desea, y segun ls requerimiento del programa, vuelve a hacer el apartado de catalogo del inventario, con los modales para inyectar y todo
+
+
+-->

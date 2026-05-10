@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kardex - Botica Familiar</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/css/variables.css">
+</head>
+
+<body class="app" style="height: 100vh; overflow: hidden;">
+
+  <div class="d-flex" style="height: 100vh; overflow: hidden;">
+    <div id="sidebar-container"></div>
+
+    <div class="flex-grow-1 d-flex flex-column" style="overflow: hidden;">
+      <div id="navbar-container"></div>
+
+      <!-- MAIN CONTENT -->
+      <main class="flex-grow-1" style="overflow-y: auto;">
+
+        <div class="container-limit px-4 py-4">
+
+          <!-- HEADER DE SECCIÓN -->
+          <div class="d-flex justify-content-between align-items-center mb-4 pb-2">
+            <div>
+              <h1 class="page-title m-0">Kardex de Movimientos</h1>
+              <p class="small text-google-muted mt-1 m-0">Auditoría intocable del historial de productos</p>
+            </div>
+            <div class="d-flex gap-2">
+              <button class="btn btn-google-light d-flex align-items-center gap-2">
+                <span>🖨️</span> Imprimir Kardex
+              </button>
+            </div>
+          </div>
+
+          <!-- 1. BUSCADOR Y RESUMEN DEL PRODUCTO -->
+          <div class="card card-google mb-4 p-4">
+            <div class="row align-items-center g-4">
+
+              <!-- Buscador -->
+              <div class="col-lg-5">
+                <label class="form-label small fw-medium text-google-title">Buscar Producto a Auditar</label>
+                <div class="search-google d-flex align-items-center gap-2" style="border: 1px solid var(--g-primary);">
+                  <span>🔍</span>
+                  <!-- Le quitamos el value="..." fijo y le agregamos el id y el list -->
+                  <input type="text" id="kardex-buscador-input" list="kardex-lista-productos"
+                    class="form-control border-0 shadow-none p-1" style="background: transparent;"
+                    placeholder="SKU o Nombre del producto..." autofocus>
+
+                  <datalist id="kardex-lista-productos"></datalist>
+                </div>
+              </div>
+
+              <div class="col-lg-1 d-none d-lg-flex justify-content-center">
+                <div style="width: 1px; height: 60px; background-color: var(--g-border);"></div>
+              </div>
+
+              <!-- Resumen del Producto Seleccionado -->
+              <div class="col-lg-6">
+                <div
+                  class="d-flex justify-content-between align-items-center bg-light p-3 rounded-3 border border-google">
+                  <div>
+                    <div id="kardex-resumen-sku" class="small text-google-muted font-monospace mb-1">SKU: -</div>
+                    <h5 id="kardex-resumen-nombre" class="m-0 text-google-title fw-bold">Seleccione un producto</h5>
+                    <div id="kardex-resumen-categoria" class="small text-google-muted mt-1">-</div>
+                  </div>
+                  <div class="text-end border-start ps-4 border-google">
+                    <div class="small text-google-muted text-uppercase fw-medium" style="letter-spacing: 0.5px;">Stock
+                      Actual</div>
+                    <div id="kardex-resumen-stock" class="fs-2 fw-bold"
+                      style="color: var(--g-primary); line-height: 1;">0</div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- 2. TABLA DE KARDEX (HISTORIAL) -->
+          <div class="card card-google d-flex flex-column">
+
+            <div
+              class="card-header bg-transparent py-3 border-bottom d-flex justify-content-between align-items-center">
+              <span class="text-google-title fw-medium">Historial de Movimientos</span>
+              <div class="d-flex gap-2">
+                <!--<select class="form-select form-select-sm form-control-google" style="width: auto;">
+                  <option selected>Últimos 30 días</option>
+                  <option>Este Año</option>
+                  <option>Todo el historial</option>
+                </select>-->
+              </div>
+            </div>
+
+            <!--AQUI CLAVE PARA QUE EL SCROLL FUNCIONE BIEN PARA DEFINIR LIMITES-->
+            <div class="table-responsive flex-grow-1" style="min-height: 400px;">
+              <table class="table table-hover align-middle m-0 table-google">
+                <thead>
+                  <tr class="small text-google-muted">
+                    <th>Fecha y Hora</th>
+                    <th>Tipo de Movimiento</th>
+                    <th>Referencia</th>
+                    <th>Usuario</th>
+                    <th class="text-center">Cant.</th>
+                    <th class="text-center">Saldo Final</th>
+                  </tr>
+                </thead>
+                <tbody id="kardex-tabla-body" class="border-top-0 font-monospace" style="font-size: 0.9rem;">
+                  <tr>
+                    <td colspan="6" class="text-center py-5 text-google-muted">
+                      Use el buscador para seleccionar un producto y ver su historial.
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <!-- Paginación
+            <div class="card-footer bg-transparent border-top py-3 d-flex justify-content-between align-items-center">
+              <span class="small text-google-muted">Mostrando 4 movimientos recientes</span>
+              <div class="d-flex gap-2">
+                <button class="btn btn-sm btn-light rounded-pill px-3 fw-medium text-google-muted border-google"
+                  disabled>Anterior</button>
+                <button class="btn btn-sm btn-google-primary rounded-pill px-3 fw-medium">1</button>
+                <button
+                  class="btn btn-sm btn-light rounded-pill px-3 fw-medium text-google-muted border-google">Siguiente</button>
+              </div>
+            </div>-->
+
+          </div>
+
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <script src="/assets/js/kardex.js"></script>"
+  <script src="/assets/js/inyector.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+
+</html>
