@@ -3,227 +3,131 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>POS Punto de Venta - Botica Familiar</title>
+  <title>POS - Botica Familiar</title>
   
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="/assets/css/variables.css">
+  <link rel="stylesheet" href="/assets/css/main.css">
 
   <style>
-    /* Botones de control de cantidad (+/-) */
-    .btn-qty {
-      width: 32px;
-      height: 32px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border-radius: 50%;
-      background-color: #f1f3f4;
-      border: none;
-      color: var(--g-text-title);
-      font-weight: bold;
-      transition: all 0.2s;
+    .buscador-pos {
+      border-radius: 50px;
+      padding: 14px 20px;
+      font-size: 1.1rem;
+      border: 2px solid #dadce0;
     }
-    .btn-qty:hover { background-color: #e8eaed; }
+    .buscador-pos:focus {
+      border-color: var(--g-primary);
+      box-shadow: 0 0 0 3px rgba(26,115,232,0.2);
+    }
+    .ticket-table td, .ticket-table th {
+      vertical-align: middle;
+    }
+    .btn-cobrar {
+      font-size: 1.25rem;
+      padding: 16px 0;
+      font-weight: bold;
+    }
   </style>
 </head>
 <body class="app">
 
   <div class="d-flex" style="height: 100vh; overflow: hidden;">
+    <!-- Sidebar -->
     <div id="sidebar-container"></div>
 
-    <div class="flex-grow-1 d-flex flex-column" style="overflow: hidden;">
+    <div class="flex-grow-1 d-flex flex-column">
+      <!-- Navbar -->
       <div id="navbar-container"></div>
 
-      <!-- MAIN CONTENT -->
-      <main class="flex-grow-1" style="overflow-y: auto;">
-        
-        <!-- Para el POS es mejor usar fluid para aprovechar el monitor de caja -->
-        <div class="container-fluid px-4 py-4" style="max-width: 1600px;">
+      <main class="flex-grow-1 overflow-auto p-4">
+        <div class="container-fluid">
 
-          <div class="row g-4 h-100">
-            
-            <!-- ========================================== -->
-            <!-- LADO IZQUIERDO: Escáner y Lista de Compras -->
-            <!-- ========================================== -->
-            <div class="col-lg-8 d-flex flex-column gap-3">
-              
-              <!-- Barra de Escaneo -->
-              <div class="search-google pos-scanner bg-white d-flex align-items-center gap-3">
-                <span class="fs-4">📟</span>
-                <input type="text" placeholder="Escanea el código de barras o busca por nombre..." autofocus>
-              </div>
+          <!-- Buscador con Autocompletado -->
+          <div class="mb-4">
+            <input type="text" id="buscador-pos" class="form-control buscador-pos shadow-sm" 
+                   placeholder="Escanea código de barras o busca producto..." 
+                   list="lista-productos-pos" autofocus>
+          </div>
 
-              <!-- Tabla del Carrito -->
-              <div class="card card-google flex-grow-1 d-flex flex-column">
-                <div class="card-header bg-transparent py-3 px-4 border-bottom d-flex justify-content-between align-items-center">
-                  <span class="text-google-title fw-medium">Ticket Actual (3 Productos)</span>
-                  <button class="btn btn-sm btn-google-light text-danger border-danger">Vaciar Carrito</button>
+          <div class="row g-4">
+
+            <!-- Ticket Actual -->
+            <div class="col-lg-7">
+              <div class="card h-100">
+                <div class="card-header d-flex justify-content-between align-items-center bg-white">
+                  <h5 class="mb-0">Ticket Actual</h5>
+                  <button class="btn btn-outline-danger btn-sm" onclick="vaciarCarrito()">Vaciar Ticket</button>
                 </div>
-                
-                <div class="table-responsive flex-grow-1" style="min-height: 400px;">
-                  <table class="table table-hover align-middle m-0 table-google">
-                    <thead>
+                <div class="card-body p-0">
+                  <table class="table table-hover ticket-table mb-0">
+                    <thead class="table-light">
                       <tr>
                         <th>Producto</th>
-                        <th class="text-center">Precio Unit.</th>
-                        <th class="text-center" style="width: 150px;">Cantidad</th>
+                        <th class="text-end">Precio Unit.</th>
+                        <th class="text-center">Cantidad</th>
                         <th class="text-end">Subtotal</th>
-                        <th class="text-center"></th>
+                        <th class="text-center">Acción</th>
                       </tr>
                     </thead>
-                    <tbody class="border-top-0">
-                      
-                      <!-- Item 1 -->
-                      <tr>
-                        <td>
-                          <div class="text-google-title fw-bold">Paracetamol 500mg</div>
-                          <div class="small text-google-muted">Stock Disp: 145 und</div>
-                        </td>
-                        <td class="text-center text-google-muted">S/ 1.50</td>
-                        <td>
-                          <div class="d-flex justify-content-center align-items-center gap-2">
-                            <button class="btn-qty">-</button>
-                            <span class="fw-bold fs-6 text-google-title" style="width: 30px; text-align: center;">2</span>
-                            <button class="btn-qty">+</button>
-                          </div>
-                        </td>
-                        <td class="text-end fw-bold text-google-title fs-6">S/ 3.00</td>
-                        <td class="text-center">
-                          <button class="btn btn-sm p-2 text-danger shadow-none fs-5">🗑️</button>
-                        </td>
-                      </tr>
-
-                      <!-- Item 2 -->
-                      <tr>
-                        <td>
-                          <div class="text-google-title fw-bold">Amoxicilina 500mg</div>
-                          <div class="small text-danger fw-medium">Requiere Receta Médica</div>
-                        </td>
-                        <td class="text-center text-google-muted">S/ 0.80</td>
-                        <td>
-                          <div class="d-flex justify-content-center align-items-center gap-2">
-                            <button class="btn-qty">-</button>
-                            <span class="fw-bold fs-6 text-google-title" style="width: 30px; text-align: center;">10</span>
-                            <button class="btn-qty">+</button>
-                          </div>
-                        </td>
-                        <td class="text-end fw-bold text-google-title fs-6">S/ 8.00</td>
-                        <td class="text-center">
-                          <button class="btn btn-sm p-2 text-danger shadow-none fs-5">🗑️</button>
-                        </td>
-                      </tr>
-
-                    </tbody>
+                    <tbody id="carrito-body"></tbody>
                   </table>
                 </div>
               </div>
             </div>
 
-            <!-- ========================================== -->
-            <!-- LADO DERECHO: Resumen y Cobro              -->
-            <!-- ========================================== -->
-            <div class="col-lg-4">
-              <div class="card card-google d-flex flex-column h-100 p-4">
-                
-                <!-- 1. Cliente -->
-                <div class="mb-4">
-                  <div class="d-flex justify-content-between align-items-center mb-2">
-                    <label class="small fw-medium text-google-title text-uppercase letter-spacing-1">Datos del Cliente</label>
-                    <button class="btn btn-sm text-primary p-0 shadow-none fw-medium">Buscar DNI/RUC</button>
-                  </div>
-                  <input type="text" class="form-control form-control-google fw-medium" value="Público en General" readonly>
+            <!-- Resumen del Ticket -->
+            <div class="col-lg-5">
+              <div class="card h-100">
+                <div class="card-header bg-white">
+                  <h5>Resumen del Ticket</h5>
                 </div>
+                <div class="card-body">
+                  <div class="d-flex justify-content-between mb-2">
+                    <span>Subtotal</span>
+                    <span id="subtotal">S/ 0.00</span>
+                  </div>
+                  <div class="d-flex justify-content-between mb-2">
+                    <span>IGV (18%)</span>
+                    <span id="igv">S/ 0.00</span>
+                  </div>
+                  <hr>
+                  <div class="d-flex justify-content-between fs-4 fw-bold text-primary">
+                    <span>Total a Pagar</span>
+                    <span id="total">S/ 0.00</span>
+                  </div>
 
-                <hr class="text-muted opacity-25 my-2">
-
-                <!-- 2. Totales -->
-                <div class="my-4 d-flex flex-column gap-2">
-                  <div class="d-flex justify-content-between align-items-center">
-                    <span class="text-google-muted">Subtotal</span>
-                    <span class="text-google-title fw-medium">S/ 9.32</span>
-                  </div>
-                  <div class="d-flex justify-content-between align-items-center">
-                    <span class="text-google-muted">IGV (18%)</span>
-                    <span class="text-google-title fw-medium">S/ 1.68</span>
-                  </div>
-                  <div class="d-flex justify-content-between align-items-center">
-                    <span class="text-primary fw-medium cursor-pointer" data-bs-toggle="modal" data-bs-target="#modalDescuento">Aplicar Descuento</span>
-                    <span class="text-danger fw-medium">- S/ 0.00</span>
-                  </div>
-                  
-                  <div class="d-flex justify-content-between align-items-end mt-3 p-3 rounded-3" style="background-color: var(--g-primary-soft);">
-                    <span class="text-google-title fw-bold">TOTAL A PAGAR</span>
-                    <span class="fw-bold" style="font-size: 2.5rem; line-height: 1; color: var(--g-primary);">S/ 11.00</span>
-                  </div>
-                </div>
-
-                <!-- 3. Medio de Pago (Opciones para marcar) -->
-                <div class="mb-4 flex-grow-1">
-                  <label class="small fw-medium text-google-title text-uppercase mb-3">Medio de Pago</label>
-                  
-                  <div class="bg-light p-3 rounded-3 border-google">
-                    
-                    <div class="form-check mb-3">
-                      <input class="form-check-input" type="radio" name="medioPagoRadio" id="pagoEfectivo" checked style="width: 1.2rem; height: 1.2rem;">
-                      <label class="form-check-label ms-2 text-google-title d-flex align-items-center gap-2 mt-1" for="pagoEfectivo">
-                        <span>💵</span> Efectivo
+                  <div class="mt-4">
+                    <label class="form-label fw-medium">Medio de Pago</label>
+                    <div class="d-flex flex-column gap-2">
+                      <label class="d-flex align-items-center gap-2">
+                        <input type="radio" name="medio_pago" value="EFECTIVO" checked> 💵 Efectivo
+                      </label>
+                      <label class="d-flex align-items-center gap-2">
+                        <input type="radio" name="medio_pago" value="TARJETA"> 💳 Tarjeta
+                      </label>
+                      <label class="d-flex align-items-center gap-2">
+                        <input type="radio" name="medio_pago" value="YAPE"> 📱 Yape
                       </label>
                     </div>
-                    
-                    <div class="form-check mb-3">
-                      <input class="form-check-input" type="radio" name="medioPagoRadio" id="pagoTarjeta" style="width: 1.2rem; height: 1.2rem;">
-                      <label class="form-check-label ms-2 text-google-title d-flex align-items-center gap-2 mt-1" for="pagoTarjeta">
-                        <span>💳</span> Tarjeta (POS)
-                      </label>
-                    </div>
-                    
-                    <div class="form-check mb-3">
-                      <input class="form-check-input" type="radio" name="medioPagoRadio" id="pagoYape" style="width: 1.2rem; height: 1.2rem;">
-                      <label class="form-check-label ms-2 text-google-title d-flex align-items-center gap-2 mt-1" for="pagoYape">
-                        <span>📱</span> Yape
-                      </label>
-                    </div>
-                    
-                    <div class="form-check m-0">
-                      <input class="form-check-input" type="radio" name="medioPagoRadio" id="pagoPlin" style="width: 1.2rem; height: 1.2rem;">
-                      <label class="form-check-label ms-2 text-google-title d-flex align-items-center gap-2 mt-1" for="pagoPlin">
-                        <span>📲</span> Plin
-                      </label>
-                    </div>
-                    
                   </div>
                 </div>
-
-                <!-- 4. Botón de Cobro Gigante -->
-                <button class="btn btn-google-primary w-100 py-3 fs-5 fw-bold shadow-sm d-flex justify-content-between align-items-center px-4" 
-                        data-bs-toggle="modal" data-bs-target="#modalCobrar"
-                        style="background-color: var(--g-success); border-radius: var(--radius-xl);">
-                  <span>Cobrar Ticket</span>
-                  <span>➞</span>
-                </button>
-
+                <div class="card-footer bg-white">
+                  <button onclick="cobrarTicket()" class="btn btn-success w-100 btn-cobrar">
+                    COBRAR TICKET →
+                  </button>
+                </div>
               </div>
             </div>
-
           </div>
         </div>
       </main>
     </div>
   </div>
 
-  <!-- Contenedores de Modales -->
-  <div id="modal-cobrar-container"></div>
-  <div id="modal-descuento-container"></div>
-
-  <!-- Scripts -->
+  <!-- Inyectores -->
   <script src="/assets/js/inyector.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-  <script>
-    document.addEventListener("DOMContentLoaded", () => {
-      inyectarComponente("sidebar-container", "/components/sidebar.html");
-      inyectarComponente("navbar-container", "/components/navbar.html");
-      inyectarComponente("modal-cobrar-container", "/components/modals/modal-cobrar.html");
-    });
-  </script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="/assets/js/pos.js"></script>
 </body>
 </html>
