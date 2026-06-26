@@ -16,7 +16,26 @@ document.addEventListener('DOMContentLoaded', () => {
 // ==========================================
 async function cargarBuscador() {
     try {
-        const respuesta = await fetch('http://127.0.0.1:5000/api/inventario/productos');
+        const token = localStorage.getItem('token');
+
+        const respuesta = await fetch('http://127.0.0.1:5000/api/inventario/productos', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}` 
+            }
+        });
+
+        // Verificación de seguridad
+        if (respuesta.status === 403) {
+            console.error("No tienes permisos de rol para ver los productos.");
+            return; 
+        } else if (respuesta.status === 401) {
+            // CORRECCIÓN: Ruta absoluta a la carpeta pages
+            window.location.replace('/pages/login.html'); 
+            return;
+        }
+
         catalogoProductos = await respuesta.json();
         
         const datalist = document.getElementById('kardex-lista-productos');
@@ -40,17 +59,14 @@ function procesarSeleccion(evento) {
     let idProducto = null;
     let productoSeleccionado = null;
 
-    // Buscamos si el texto coincide con alguna opción
     for (let i = 0; i < opciones.length; i++) {
         if (opciones[i].value === textoIngresado) {
             idProducto = opciones[i].getAttribute('data-id');
-            // Buscamos los datos completos del producto en nuestra variable global
             productoSeleccionado = catalogoProductos.find(p => p.id == idProducto);
             break;
         }
     }
 
-    // Si encontró un producto válido, actualizamos la interfaz
     if (productoSeleccionado) {
         actualizarResumen(productoSeleccionado);
         cargarHistorialKardex(idProducto);
@@ -63,7 +79,6 @@ function procesarSeleccion(evento) {
 function actualizarResumen(producto) {
     document.getElementById('kardex-resumen-sku').innerText = `SKU: ${producto.sku}`;
     document.getElementById('kardex-resumen-nombre').innerText = producto.nombre;
-    // Si tu bd devuelve categorias(nombre), lo mostramos. Si no, mostramos la presentación
     document.getElementById('kardex-resumen-categoria').innerText = producto.categorias?.nombre || producto.descripcion_presentacion || "Sin categoría";
     document.getElementById('kardex-resumen-stock').innerText = producto.stock_actual;
 }
@@ -76,22 +91,42 @@ async function cargarHistorialKardex(idProducto) {
     tbody.innerHTML = `<tr><td colspan="6" class="text-center py-4">Cargando movimientos...</td></tr>`;
 
     try {
-        const respuesta = await fetch(`http://127.0.0.1:5000/api/kardex/${idProducto}`);
+        const token = localStorage.getItem('token');
+        const respuesta = await fetch(`http://127.0.0.1:5000/api/kardex/${idProducto}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}` 
+            }
+        });
         
+        if (respuesta.status === 403) {
+            tbody.innerHTML = ''; 
+    
+            // 2. Instanciamos y mostramos el modal de Bootstrap
+            const modalSeguridad = new bootstrap.Modal(document.getElementById('modalAccesoDenegado'));
+            modalSeguridad.show();
+            return;
+        } else if (respuesta.status === 401) {
+            // CORRECCIÓN: Ruta absoluta a la carpeta pages
+            window.location.replace('/pages/login.html');
+            return;
+        }
+
         if (!respuesta.ok) {
             tbody.innerHTML = `<tr><td colspan="6" class="text-center py-5 text-google-muted">Este producto no tiene movimientos registrados aún.</td></tr>`;
             return;
         }
 
-        const movimientos = await respuesta.json();
-        tbody.innerHTML = ''; // Limpiamos
+        const dataUniversal = await respuesta.json();
+        const movimientos = dataUniversal.data || dataUniversal; 
+
+        tbody.innerHTML = ''; 
 
         movimientos.forEach(mov => {
-            // Formatear fecha (De SQL a formato legible)
             const fechaObj = new Date(mov.fecha_hora);
             const fechaLegible = fechaObj.toLocaleString('es-PE', { hour12: false });
 
-            // Configurar el color y texto de la etiqueta según el tipo de movimiento
             let badgeClass = "";
             let textoTipo = mov.tipo_movimiento;
             let colorCantidad = "";
@@ -109,7 +144,7 @@ async function cargarHistorialKardex(idProducto) {
                     colorCantidad = "text-danger";
                     break;
                 case 'ENTRADA_ANULACION':
-                    badgeClass = "badge-tonal-primary text-primary"; // O el color que tengas para primario
+                    badgeClass = "badge-tonal-primary text-primary"; 
                     textoTipo = "Entrada por Anulación";
                     colorCantidad = "text-primary";
                     break;
@@ -123,7 +158,6 @@ async function cargarHistorialKardex(idProducto) {
                     badgeClass = "bg-secondary";
             }
 
-            // Extraer el nombre del usuario si viene en el JSON, sino poner "Sistema"
             const nombreUsuario = mov.usuarios?.nombres || "Sistema";
 
             const fila = `

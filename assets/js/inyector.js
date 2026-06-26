@@ -32,4 +32,8 @@ document.addEventListener("DOMContentLoaded", () => {
   // VENTAS - MODALES
   loadComponent("modal-movimiento-caja-container", "/modals/ventas/control-caja-movimiento.html");
   loadComponent("modal-cerrar-caja-container", "/modals/ventas/control-caja-cerrar.html");
+
+  //MODALES
+  loadComponent("modal-acceso-denegado", "/modals/error-403.html");
+  
 });
