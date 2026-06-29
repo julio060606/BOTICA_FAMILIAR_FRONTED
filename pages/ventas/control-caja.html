@@ -11,7 +11,7 @@
 </head>
 <body class="app">
 
-  <div class="d-flex" style="height: 100vh; overflow: hidden;">
+<div class="d-flex" style="height: 100vh; overflow: hidden;">
     <div id="sidebar-container"></div>
 
     <div class="flex-grow-1 d-flex flex-column" style="overflow: hidden;">
@@ -19,153 +19,94 @@
 
       <!-- MAIN CONTENT -->
       <main class="flex-grow-1" style="overflow-y: auto;">
-        
-        <div class="container-limit px-4 py-4">
+        <div class="container-fluid px-4 py-4" style="max-width: 1600px;">
 
-          <!-- HEADER DE SECCIÓN CON ESTADO DE CAJA -->
+          <!-- HEADER DE SECCIÓN -->
           <div class="d-flex justify-content-between align-items-center mb-4 pb-2">
             <div>
               <div class="d-flex align-items-center gap-3">
                 <h1 class="page-title m-0">Control de Caja y Arqueo</h1>
-                <span class="badge badge-tonal-success rounded-pill px-3 py-1 border border-success border-opacity-25">Caja Abierta</span>
+                <span class="badge bg-secondary rounded-pill px-3 py-1" id="etiqueta-estado-caja">Verificando...</span>
               </div>
-              <p class="small text-google-muted mt-1 m-0">Turno actual: 04 de Mayo, 08:00 AM - Julio Minaya</p>
+              <p class="small text-muted mt-1 m-0" id="texto-info-turno">Cargando datos del turno...</p>
             </div>
             <div class="d-flex gap-2">
-               <!-- Botón para registrar un gasto o ingreso manual -->
-               <button class="btn btn-google-light d-flex align-items-center gap-2 fw-medium" data-bs-toggle="modal" data-bs-target="#modalMovimientoCaja">
+               <button class="btn btn-light border d-flex align-items-center gap-2 fw-medium" data-bs-toggle="modal" data-bs-target="#modalMovimientoCaja" id="btn-nuevo-movimiento" disabled>
                  <span>💸</span> Ingreso / Egreso Manual
                </button>
             </div>
           </div>
 
           <div class="row g-4">
-            
-            <!-- ========================================== -->
-            <!-- COLUMNA IZQUIERDA: RESUMEN FINANCIERO      -->
-            <!-- ========================================== -->
+            <!-- COLUMNA IZQUIERDA: RESUMEN FINANCIERO -->
             <div class="col-lg-4 d-flex flex-column gap-4">
-              
-              <!-- Tarjeta de Arqueo en Tiempo Real -->
-              <div class="card card-google p-4 border-0" style="background-color: var(--g-primary-soft);">
-                <h6 class="fw-bold mb-4" style="color: var(--g-primary);">Resumen del Turno</h6>
+              <div class="card p-4 border-0 shadow-sm" style="background-color: #f8f9fa;">
+                <h6 class="fw-bold mb-4 text-primary">Resumen del Turno</h6>
                 
                 <div class="d-flex flex-column gap-3 mb-4">
                   <div class="d-flex justify-content-between align-items-center">
-                    <span class="small text-google-title fw-medium">Saldo Inicial (Apertura)</span>
-                    <span class="fw-medium text-google-title">S/ 150.00</span>
+                    <span class="small fw-medium">Saldo Inicial (Apertura)</span>
+                    <span class="fw-medium" id="caja-saldo-inicial">S/ 0.00</span>
                   </div>
-                  
                   <div class="d-flex justify-content-between align-items-center">
-                    <span class="small text-google-title fw-medium">Ventas en Efectivo</span>
-                    <span class="fw-medium" style="color: var(--g-success);">+ S/ 450.50</span>
+                    <span class="small fw-medium">Ventas en Efectivo</span>
+                    <span class="fw-medium text-success" id="caja-ventas-efectivo">+ S/ 0.00</span>
                   </div>
-
                   <div class="d-flex justify-content-between align-items-center">
-                    <span class="small text-google-title fw-medium">Ingresos Manuales</span>
-                    <span class="fw-medium" style="color: var(--g-success);">+ S/ 50.00</span>
+                    <span class="small fw-medium">Ingresos Manuales</span>
+                    <span class="fw-medium text-success" id="caja-ingresos-manuales">+ S/ 0.00</span>
                   </div>
-
                   <div class="d-flex justify-content-between align-items-center">
-                    <span class="small text-google-title fw-medium">Egresos Manuales</span>
-                    <span class="fw-medium text-danger">- S/ 15.00</span>
+                    <span class="small fw-medium">Egresos Manuales</span>
+                    <span class="fw-medium text-danger" id="caja-egresos-manuales">- S/ 0.00</span>
                   </div>
                 </div>
 
-                <div class="pt-3 border-top" style="border-color: rgba(26, 115, 232, 0.2) !important;">
-                  <div class="small text-google-title fw-bold text-uppercase mb-1">Saldo Esperado en Caja</div>
-                  <div class="fs-1 fw-bold" style="color: var(--g-primary); line-height: 1;">S/ 635.50</div>
-                  <div class="small text-google-muted mt-2">Este es el monto físico que debe haber en la gaveta.</div>
+                <div class="pt-3 border-top">
+                  <div class="small fw-bold text-uppercase mb-1">Saldo Esperado en Caja</div>
+                  <div class="fs-1 fw-bold text-primary" style="line-height: 1;" id="caja-saldo-esperado">S/ 0.00</div>
                 </div>
               </div>
 
-              <!-- Ventas por otros medios (No suman al efectivo físico) -->
-              <div class="card card-google p-4">
-                <h6 class="text-google-title fw-medium mb-3 fs-6">Ventas por Otros Medios</h6>
+              <!-- Ventas por otros medios -->
+              <div class="card p-4 shadow-sm border-0">
+                <h6 class="fw-medium mb-3 fs-6">Ventas por Otros Medios</h6>
                 <div class="d-flex justify-content-between align-items-center mb-2">
-                  <span class="small text-google-muted d-flex align-items-center gap-2"><span>💳</span> Tarjeta / POS</span>
-                  <span class="fw-medium text-google-title">S/ 320.00</span>
+                  <span class="small text-muted d-flex align-items-center gap-2"><span>💳</span> Tarjeta / POS</span>
+                  <span class="fw-medium" id="caja-ventas-tarjeta">S/ 0.00</span>
                 </div>
                 <div class="d-flex justify-content-between align-items-center mb-2">
-                  <span class="small text-google-muted d-flex align-items-center gap-2"><span>📱</span> Yape / Plin</span>
-                  <span class="fw-medium text-google-title">S/ 180.00</span>
+                  <span class="small text-muted d-flex align-items-center gap-2"><span>📱</span> Yape / Plin</span>
+                  <span class="fw-medium" id="caja-ventas-yape">S/ 0.00</span>
                 </div>
               </div>
 
-              <!-- Botón de Cierre de Caja -->
-              <button class="btn btn-google-primary w-100 py-3 fs-5 fw-bold shadow-sm" data-bs-toggle="modal" data-bs-target="#modalCerrarCaja">
+              <button class="btn btn-primary w-100 py-3 fs-5 fw-bold shadow-sm" data-bs-toggle="modal" data-bs-target="#modalCerrarCaja" id="btn-cerrar-caja" disabled>
                 🔒 Cerrar Turno y Caja
               </button>
-
             </div>
 
-            <!-- ========================================== -->
-            <!-- COLUMNA DERECHA: HISTORIAL DE MOVIMIENTOS  -->
-            <!-- ========================================== -->
+            <!-- COLUMNA DERECHA: HISTORIAL DE MOVIMIENTOS -->
             <div class="col-lg-8">
-              <div class="card card-google d-flex flex-column h-100">
-                
-                <div class="card-header bg-transparent py-3 border-bottom d-flex justify-content-between align-items-center">
-                  <span class="text-google-title fw-medium">Flujo de Caja (Día Actual)</span>
-                  <button class="btn btn-sm btn-google-light border-0 text-primary fw-medium">Exportar a Excel</button>
+              <div class="card d-flex flex-column h-100 shadow-sm border-0">
+                <div class="card-header bg-white py-3 border-bottom d-flex justify-content-between align-items-center">
+                  <span class="fw-medium">Flujo de Caja (Día Actual)</span>
                 </div>
-                
-                <div class="table-responsive flex-grow-1">
-                  <table class="table table-hover align-middle m-0 table-google">
+                <div class="table-responsive flex-grow-1 p-3">
+                  <table class="table table-hover align-middle m-0">
                     <thead>
-                      <tr class="small text-google-muted">
+                      <tr class="small text-muted">
                         <th>Hora</th>
                         <th>Tipo</th>
                         <th>Concepto / Referencia</th>
                         <th class="text-end">Monto</th>
                       </tr>
                     </thead>
-                    <tbody class="border-top-0">
-                      
-                      <!-- Movimiento: Apertura -->
-                      <tr>
-                        <td class="text-google-muted small">08:00 AM</td>
-                        <td><span class="badge badge-tonal-primary rounded-pill px-3">Apertura</span></td>
-                        <td class="text-google-title">Fondo de caja inicial</td>
-                        <td class="text-end fw-bold text-google-title">S/ 150.00</td>
-                      </tr>
-
-                      <!-- Movimiento: Venta Efectivo -->
-                      <tr>
-                        <td class="text-google-muted small">09:15 AM</td>
-                        <td><span class="badge badge-tonal-success rounded-pill px-3">Venta Efectivo</span></td>
-                        <td class="text-google-title">Ticket T001-0082</td>
-                        <td class="text-end fw-bold text-success">+ S/ 12.50</td>
-                      </tr>
-
-                      <!-- Movimiento: Egreso Manual -->
-                      <tr>
-                        <td class="text-google-muted small">11:30 AM</td>
-                        <td><span class="badge badge-tonal-danger rounded-pill px-3">Egreso Manual</span></td>
-                        <td class="text-google-title">Pago de pasajes para mensajería</td>
-                        <td class="text-end fw-bold text-danger">- S/ 15.00</td>
-                      </tr>
-
-                      <!-- Movimiento: Ingreso Manual -->
-                      <tr>
-                        <td class="text-google-muted small">12:45 PM</td>
-                        <td><span class="badge badge-tonal-success rounded-pill px-3">Ingreso Manual</span></td>
-                        <td class="text-google-title">Sencillo adicional traído por administrador</td>
-                        <td class="text-end fw-bold text-success">+ S/ 50.00</td>
-                      </tr>
-
-                      <!-- Movimiento: Venta Efectivo -->
-                      <tr>
-                        <td class="text-google-muted small">14:20 PM</td>
-                        <td><span class="badge badge-tonal-success rounded-pill px-3">Venta Efectivo</span></td>
-                        <td class="text-google-title">Ticket T001-0083</td>
-                        <td class="text-end fw-bold text-success">+ S/ 45.00</td>
-                      </tr>
-
+                    <tbody class="border-top-0" id="tabla-flujo-caja">
+                      <!-- JS INYECTA LAS FILAS AQUÍ -->
                     </tbody>
                   </table>
                 </div>
-
               </div>
             </div>
 
@@ -176,10 +117,13 @@
   </div>
 
   <!-- Contenedores de Modales -->
+  <div id="modal-acceso-denegado"></div>
+  <div id="modal-abrir-caja-container"></div>
   <div id="modal-movimiento-caja-container"></div>
   <div id="modal-cerrar-caja-container"></div>
 
   <!-- Scripts -->
+  <script src="/assets/js/control-caja.js"></script>
   <script src="/assets/js/inyector.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>

@@ -1,0 +1,29 @@
+<div class="modal fade" id="modalAbrirCaja" tabindex="-1" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content border-0 shadow-lg" style="border-radius: var(--radius-xl);">
+      <div class="modal-header border-bottom-0 pb-0 justify-content-center mt-3">
+        <div class="bg-primary bg-opacity-10 text-primary rounded-circle d-flex align-items-center justify-content-center mb-2" style="width: 60px; height: 60px; font-size: 1.5rem;">
+          ☀️
+        </div>
+      </div>
+      <div class="modal-body p-4 text-center">
+        <h4 class="fw-bold text-google-title mb-2">Abrir Nuevo Turno</h4>
+        <p class="text-google-muted small mb-4">No tienes una caja asignada en este momento. Ingresa el dinero en efectivo con el que estás iniciando para poder operar en el Punto de Venta.</p>
+        
+        <form id="form-abrir-caja" onsubmit="event.preventDefault(); abrirCajaBackend();">
+            <div class="mb-4 text-start px-2">
+                <label class="form-label small fw-bold text-google-title text-uppercase letter-spacing-1">Fondo Inicial de Caja *</label>
+                <div class="input-group input-group-lg">
+                    <span class="input-group-text bg-white border-google text-google-muted fw-bold">S/</span>
+                    <input type="number" step="0.10" id="abrir-saldo-inicial" class="form-control form-control-google fw-bold fs-3 text-primary text-center" placeholder="0.00" required autofocus>
+                </div>
+            </div>
+            
+            <button type="submit" class="btn btn-google-primary w-100 py-3 fs-6 fw-bold shadow-sm rounded-pill text-white" id="btn-abrir-caja-submit">
+                Iniciar Turno
+            </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

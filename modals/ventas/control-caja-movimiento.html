@@ -1,6 +1,3 @@
-<!-- ========================================== -->
-<!-- MODAL: REGISTRAR INGRESO / EGRESO MANUAL   -->
-<!-- ========================================== -->
 <div class="modal fade" id="modalMovimientoCaja" tabindex="-1" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content modal-content-google">
@@ -11,21 +8,16 @@
       </div>
       
       <div class="modal-body p-4">
-        <form>
+        <form id="form-movimiento" onsubmit="event.preventDefault(); registrarMovimientoBackend();">
           
-          <!-- Selector Tipo de Movimiento (Radios Tonal) -->
           <div class="d-flex gap-3 mb-4">
             <div class="form-check p-3 rounded-3 flex-grow-1" style="border: 1px solid var(--g-success); background-color: var(--g-success-soft);">
-              <input class="form-check-input ms-1" type="radio" name="tipoMovimiento" id="movIngreso">
-              <label class="form-check-label ms-2 fw-medium" style="color: var(--g-success);" for="movIngreso">
-                ➕ Ingreso de Dinero
-              </label>
+              <input class="form-check-input ms-1" type="radio" name="tipoMovimiento" value="INGRESO" id="movIngreso">
+              <label class="form-check-label ms-2 fw-medium" style="color: var(--g-success);" for="movIngreso">➕ Ingreso</label>
             </div>
             <div class="form-check p-3 rounded-3 flex-grow-1 border-google bg-light">
-              <input class="form-check-input ms-1" type="radio" name="tipoMovimiento" id="movEgreso" checked>
-              <label class="form-check-label ms-2 fw-medium text-google-title" for="movEgreso">
-                ➖ Egreso (Gasto)
-              </label>
+              <input class="form-check-input ms-1" type="radio" name="tipoMovimiento" value="EGRESO" id="movEgreso" checked>
+              <label class="form-check-label ms-2 fw-medium text-google-title" for="movEgreso">➖ Egreso</label>
             </div>
           </div>
 
@@ -33,23 +25,21 @@
             <label class="form-label small fw-medium text-google-title">Monto en Efectivo *</label>
             <div class="input-group input-group-lg">
               <span class="input-group-text bg-white border-google text-google-muted fw-bold">S/</span>
-              <input type="number" step="0.10" class="form-control form-control-google fw-bold fs-5" placeholder="0.00" autofocus>
+              <input type="number" id="mov-monto" step="0.10" class="form-control form-control-google fw-bold fs-5" placeholder="0.00" required>
             </div>
           </div>
 
-          <div class="mb-3">
+          <div class="mb-4">
             <label class="form-label small fw-medium text-google-title">Concepto / Motivo *</label>
-            <input type="text" class="form-control form-control-google" placeholder="Ej. Pago de pasajes, Compra de útiles...">
+            <input type="text" id="mov-concepto" class="form-control form-control-google" placeholder="Ej. Pago de pasajes..." required>
           </div>
-
+          
+          <div class="d-flex gap-2">
+            <button type="button" class="btn btn-light fw-medium flex-grow-1 py-2" data-bs-dismiss="modal">Cancelar</button>
+            <button type="submit" class="btn btn-google-primary fw-bold flex-grow-1 py-2 shadow-sm">Guardar</button>
+          </div>
         </form>
       </div>
-      
-      <div class="modal-footer border-top-0 pt-0 px-4 pb-4">
-        <button type="button" class="btn text-google-muted fw-medium rounded-pill px-4" data-bs-dismiss="modal">Cancelar</button>
-        <button type="button" class="btn btn-google-primary px-4 shadow-sm">Guardar Movimiento</button>
-      </div>
-
     </div>
   </div>
 </div>

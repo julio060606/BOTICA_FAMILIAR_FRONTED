@@ -1,39 +1,23 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>POS Punto de Venta - Botica Familiar</title>
-
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="/assets/css/variables.css">
-
   <style>
-    /* Botones de control de cantidad (+/-) */
     .btn-qty {
-      width: 32px;
-      height: 32px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border-radius: 50%;
-      background-color: #f1f3f4;
-      border: none;
-      color: var(--g-text-title);
-      font-weight: bold;
-      transition: all 0.2s;
+      width: 32px; height: 32px; display: flex; align-items: center; justify-content: center;
+      border-radius: 50%; background-color: #f1f3f4; border: none; color: var(--g-text-title);
+      font-weight: bold; transition: all 0.2s;
     }
-
-    .btn-qty:hover {
-      background-color: #e8eaed;
-    }
+    .btn-qty:hover { background-color: #e8eaed; }
   </style>
   <script src="/assets/js/guardian.js"></script>
 </head>
 
 <body class="app">
-
   <div class="d-flex" style="height: 100vh; overflow: hidden;">
     <div id="sidebar-container"></div>
 
@@ -41,31 +25,24 @@
       <div id="navbar-container"></div>
 
       <main class="flex-grow-1" style="overflow-y: auto;">
-
         <div class="container-fluid px-4 py-4" style="max-width: 1600px;">
           <div class="row g-4 h-100">
 
+            <!-- IZQUIERDA: Buscador y Carrito -->
             <div class="col-lg-8 d-flex flex-column gap-3">
-
-              <div class="search-google pos-scanner bg-white d-flex align-items-center gap-3 p-3 rounded shadow-sm">
+              <div class="bg-white d-flex align-items-center gap-3 p-3 rounded shadow-sm">
                 <span class="fs-4">📟</span>
-                <input type="text" id="input-buscador-pos" list="pos-lista-productos"
-                  class="form-control border-0 shadow-none"
-                  placeholder="Escanea el código de barras o busca por nombre..." autofocus autocomplete="off">
-
+                <input type="text" id="input-buscador-pos" list="pos-lista-productos" class="form-control border-0 shadow-none" placeholder="Escanea el código de barras o busca por nombre..." autofocus autocomplete="off">
                 <datalist id="pos-lista-productos"></datalist>
               </div>
 
-              <div class="card card-google flex-grow-1 d-flex flex-column">
-                <div
-                  class="card-header bg-transparent py-3 px-4 border-bottom d-flex justify-content-between align-items-center">
-                  <span class="text-google-title fw-medium" id="contador-productos">Ticket Actual (0 Productos)</span>
-                  <button class="btn btn-sm btn-google-light text-danger border-danger" onclick="vaciarCarrito()">Vaciar
-                    Carrito</button>
+              <div class="card flex-grow-1 d-flex flex-column shadow-sm border-0">
+                <div class="card-header bg-transparent py-3 px-4 border-bottom d-flex justify-content-between align-items-center">
+                  <span class="fw-medium" id="contador-productos">Ticket Actual (0 Productos)</span>
+                  <button class="btn btn-sm btn-outline-danger" onclick="vaciarCarrito()">Vaciar Carrito</button>
                 </div>
-
                 <div class="table-responsive flex-grow-1" style="min-height: 400px;">
-                  <table class="table table-hover align-middle m-0 table-google">
+                  <table class="table table-hover align-middle m-0">
                     <thead>
                       <tr>
                         <th>Producto</th>
@@ -75,92 +52,63 @@
                         <th class="text-center"></th>
                       </tr>
                     </thead>
-                    <tbody class="border-top-0" id="tabla-carrito-body">
-                    </tbody>
+                    <tbody class="border-top-0" id="tabla-carrito-body"></tbody>
                   </table>
                 </div>
               </div>
             </div>
 
+            <!-- DERECHA: Resumen de Venta -->
             <div class="col-lg-4">
-              <div class="card card-google d-flex flex-column h-100 p-4">
-
+              <div class="card d-flex flex-column h-100 p-4 shadow-sm border-0">
                 <div class="mb-4">
-                  <div class="d-flex justify-content-between align-items-center mb-2">
-                    <label class="small fw-medium text-google-title text-uppercase letter-spacing-1">Datos del
-                      Cliente</label>
-                    <button class="btn btn-sm text-primary p-0 shadow-none fw-medium">Buscar DNI/RUC</button>
-                  </div>
-                  <input type="text" class="form-control form-control-google fw-medium" value="Público en General"
-                    readonly>
+                  <label class="small fw-medium text-uppercase text-muted mb-2">Datos del Cliente</label>
+                  <input type="text" class="form-control fw-medium bg-light" value="Público en General" readonly>
                 </div>
-
                 <hr class="text-muted opacity-25 my-2">
 
                 <div class="my-4 d-flex flex-column gap-2">
                   <div class="d-flex justify-content-between align-items-center">
-                    <span class="text-google-muted">Subtotal</span>
-                    <span class="text-google-title fw-medium">S/ <span id="resumen-subtotal">0.00</span></span>
+                    <span class="text-muted">Subtotal</span>
+                    <span class="fw-medium">S/ <span id="resumen-subtotal">0.00</span></span>
                   </div>
                   <div class="d-flex justify-content-between align-items-center">
-                    <span class="text-google-muted">IGV (18%)</span>
-                    <span class="text-google-title fw-medium">S/ <span id="resumen-igv">0.00</span></span>
+                    <span class="text-muted">IGV (18%)</span>
+                    <span class="fw-medium">S/ <span id="resumen-igv">0.00</span></span>
                   </div>
-
-                  <div class="d-flex justify-content-between align-items-end mt-3 p-3 rounded-3"
-                    style="background-color: var(--g-primary-soft);">
-                    <span class="text-google-title fw-bold">TOTAL A PAGAR</span>
-                    <span class="fw-bold" style="font-size: 2.5rem; line-height: 1; color: var(--g-primary);">S/ <span
-                        id="resumen-total">0.00</span></span>
+                  <div class="d-flex justify-content-between align-items-end mt-3 p-3 rounded-3 bg-light">
+                    <span class="fw-bold">TOTAL A PAGAR</span>
+                    <span class="fw-bold text-primary" style="font-size: 2.5rem; line-height: 1;">S/ <span id="resumen-total">0.00</span></span>
                   </div>
                 </div>
 
+                <!-- MÉTODOS DE PAGO PRINCIPALES -->
                 <div class="mb-4 flex-grow-1">
-                  <label class="small fw-medium text-google-title text-uppercase mb-3">Medio de Pago</label>
-
-                  <div class="bg-light p-3 rounded-3 border-google">
+                  <label class="small fw-medium text-uppercase text-muted mb-3">Medio de Pago</label>
+                  <div class="bg-light p-3 rounded-3">
                     <div class="form-check mb-3">
-                      <input class="form-check-input" type="radio" name="medioPagoRadio" value="EFECTIVO"
-                        id="pagoEfectivo" checked style="width: 1.2rem; height: 1.2rem;">
-                      <label class="form-check-label ms-2 text-google-title d-flex align-items-center gap-2 mt-1"
-                        for="pagoEfectivo">
-                        <span>💵</span> Efectivo
-                      </label>
+                      <input class="form-check-input" type="radio" name="medioPagoRadio" value="EFECTIVO" id="pagoEfectivo" checked style="width: 1.2rem; height: 1.2rem;">
+                      <label class="form-check-label ms-2 d-flex align-items-center gap-2 mt-1 fw-medium" for="pagoEfectivo">💵 Efectivo</label>
                     </div>
                     <div class="form-check mb-3">
-                      <input class="form-check-input" type="radio" name="medioPagoRadio" value="TARJETA"
-                        id="pagoTarjeta" style="width: 1.2rem; height: 1.2rem;">
-                      <label class="form-check-label ms-2 text-google-title d-flex align-items-center gap-2 mt-1"
-                        for="pagoTarjeta">
-                        <span>💳</span> Tarjeta (POS)
-                      </label>
+                      <input class="form-check-input" type="radio" name="medioPagoRadio" value="TARJETA" id="pagoTarjeta" style="width: 1.2rem; height: 1.2rem;">
+                      <label class="form-check-label ms-2 d-flex align-items-center gap-2 mt-1 fw-medium" for="pagoTarjeta">💳 Tarjeta (POS)</label>
                     </div>
                     <div class="form-check mb-3">
-                      <input class="form-check-input" type="radio" name="medioPagoRadio" value="YAPE" id="pagoYape"
-                        style="width: 1.2rem; height: 1.2rem;">
-                      <label class="form-check-label ms-2 text-google-title d-flex align-items-center gap-2 mt-1"
-                        for="pagoYape">
-                        <span>📱</span> Yape
-                      </label>
+                      <input class="form-check-input" type="radio" name="medioPagoRadio" value="YAPE" id="pagoYape" style="width: 1.2rem; height: 1.2rem;">
+                      <label class="form-check-label ms-2 d-flex align-items-center gap-2 mt-1 fw-medium" for="pagoYape">📱 Yape</label>
                     </div>
                     <div class="form-check m-0">
-                      <input class="form-check-input" type="radio" name="medioPagoRadio" value="PLIN" id="pagoPlin"
-                        style="width: 1.2rem; height: 1.2rem;">
-                      <label class="form-check-label ms-2 text-google-title d-flex align-items-center gap-2 mt-1"
-                        for="pagoPlin">
-                        <span>📲</span> Plin
-                      </label>
+                      <input class="form-check-input" type="radio" name="medioPagoRadio" value="PLIN" id="pagoPlin" style="width: 1.2rem; height: 1.2rem;">
+                      <label class="form-check-label ms-2 d-flex align-items-center gap-2 mt-1 fw-medium" for="pagoPlin">📲 Plin</label>
                     </div>
                   </div>
                 </div>
 
-                <button onclick="procesarCobro()"
-                  class="btn btn-google-primary w-100 py-3 fs-5 fw-bold shadow-sm d-flex justify-content-between align-items-center px-4"
-                  style="background-color: var(--g-success); border-radius: var(--radius-xl);">
+                <button onclick="procesarCobro()" class="btn btn-success w-100 py-3 fs-5 fw-bold shadow-sm d-flex justify-content-between align-items-center px-4 mt-auto">
                   <span>Cobrar Ticket</span>
                   <span>➞</span>
                 </button>
-
               </div>
             </div>
 
@@ -170,26 +118,25 @@
     </div>
   </div>
 
+  <!-- ========================================================= -->
+  <!-- MODAL DE COBRO (QUEMADO EN EL HTML PARA APERTURA INSTANTANEA) -->
+  <!-- ========================================================= -->
   <div class="modal fade" id="modalCobrar" tabindex="-1" aria-hidden="true" data-bs-backdrop="static">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content rounded-4 border-0 shadow-lg">
 
-        <div class="modal-header border-bottom pb-3" style="background-color: var(--g-primary-soft, #f8f9fa);">
-          <h5 class="modal-title fw-bold text-google-title d-flex align-items-center gap-2">
-            <span>🧾</span> Confirmación de Venta
-          </h5>
+        <div class="modal-header border-bottom pb-3 bg-light">
+          <h5 class="modal-title fw-bold d-flex align-items-center gap-2"><span>🧾</span> Confirmación de Venta</h5>
           <button type="button" class="btn-close shadow-none" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
 
         <div class="modal-body p-0">
-          <div class="p-4 mx-3 mt-3 mb-2 rounded"
-            style="background-color: #fcfcfc; font-family: 'Courier New', Courier, monospace; border: 1px solid #e9ecef;">
+          <div class="p-4 mx-3 mt-3 mb-2 rounded" style="background-color: #fcfcfc; font-family: 'Courier New', Courier, monospace; border: 1px solid #e9ecef;">
             <div class="text-center mb-3" style="border-bottom: 2px dashed #adb5bd; padding-bottom: 10px;">
               <h5 class="fw-bold mb-1">BOTICA FAMILIAR</h5>
               <small class="text-muted">Ticket de Pre-visualización</small>
             </div>
-
-            <div style="max-height: 180px; overflow-y: auto;" class="mb-3 custom-scrollbar pe-1">
+            <div style="max-height: 150px; overflow-y: auto;" class="mb-3 pe-1">
               <table class="w-100 small">
                 <thead>
                   <tr style="border-bottom: 1px dashed #adb5bd;">
@@ -198,22 +145,11 @@
                     <th class="pb-2 text-end">IMPORTE</th>
                   </tr>
                 </thead>
-                <tbody id="modal-ticket-detalles">
-                </tbody>
+                <tbody id="modal-ticket-detalles"></tbody>
               </table>
             </div>
-
             <div class="pt-2" style="border-top: 2px dashed #adb5bd;">
-              <div class="d-flex justify-content-between small mb-1">
-                <span>SUBTOTAL:</span>
-                <span>S/ <span id="modal-ticket-subtotal">0.00</span></span>
-              </div>
-              <div class="d-flex justify-content-between small mb-2">
-                <span>IGV (18%):</span>
-                <span>S/ <span id="modal-ticket-igv">0.00</span></span>
-              </div>
-              <div class="d-flex justify-content-between fw-bold fs-5 mt-2 pt-2"
-                style="border-top: 1px dashed #adb5bd;">
+              <div class="d-flex justify-content-between fw-bold fs-5 mt-2 pt-2" style="border-top: 1px dashed #adb5bd;">
                 <span>TOTAL:</span>
                 <span>S/ <span id="modal-monto-total">0.00</span></span>
               </div>
@@ -221,38 +157,36 @@
           </div>
 
           <div class="px-4 py-3 text-center">
-            <p class="text-google-muted small mb-2 fw-medium">MÉTODO DE PAGO</p>
-            <span class="badge px-4 py-2 fs-6 border"
-              style="background-color: #e9ecef; color: #212529; letter-spacing: 1px;"
-              id="modal-metodo-pago">EFECTIVO</span>
+            <p class="text-muted small mb-2 fw-medium">MÉTODO DE PAGO SELECCIONADO</p>
+            <span class="badge px-4 py-2 fs-6 border mb-3" style="background-color: #e9ecef; color: #212529; letter-spacing: 1px;" id="modal-metodo-pago">EFECTIVO</span>
+
+            <!-- CALCULADORA DE VUELTO -->
+            <div id="caja-calculadora-vuelto" class="p-3 bg-light border rounded text-start" style="display: none;">
+                <label class="form-label small fw-bold text-muted">¿Con cuánto paga el cliente?</label>
+                <div class="input-group mb-2">
+                    <span class="input-group-text bg-white fw-bold">S/</span>
+                    <input type="number" id="input-monto-entregado" step="0.10" class="form-control fw-bold fs-5 text-success" oninput="calcularVueltoEnPantalla()" placeholder="0.00">
+                </div>
+                <div class="d-flex justify-content-between align-items-center mt-2 p-2 rounded" style="background-color: #e8f0fe; border: 1px dashed #1a73e8;">
+                    <span class="fw-bold text-primary">Vuelto a entregar:</span>
+                    <span class="fw-bold fs-4 text-primary" id="texto-vuelto-calculado">S/ 0.00</span>
+                </div>
+            </div>
           </div>
         </div>
 
         <div class="modal-footer border-top-0 pt-0 pb-4 px-4 d-flex gap-2 bg-white">
-          <button type="button" class="btn btn-light fw-medium flex-grow-1 py-2 rounded-3 border text-google-muted"
-            data-bs-dismiss="modal">Modificar</button>
-          <button type="button"
-            class="btn btn-success fw-bold flex-grow-1 py-2 rounded-3 shadow-sm d-flex justify-content-center align-items-center gap-2"
-            onclick="procesarCobroBackend()" id="btn-confirmar-cobro">
-            <span>Emitir Ticket</span>
-          </button>
+          <button type="button" class="btn btn-light fw-medium flex-grow-1 py-2 rounded-3 border" data-bs-dismiss="modal">Modificar</button>
+          <button type="button" class="btn btn-success fw-bold flex-grow-1 py-2 rounded-3 shadow-sm" onclick="procesarCobroBackend()" id="btn-confirmar-cobro">Emitir Ticket</button>
         </div>
       </div>
     </div>
   </div>
-  </div>
 
-  <!-- Contenedores de Modales
-  <div id="modal-cobrar-container"></div>
-  <div id="modal-descuento-container"></div> -->
   <div id="modal-acceso-denegado"></div>
-    </div>
 
-  <!-- Scripts -->
-  <script src="/assets/js/pos.js"></script>
-  <script src="/assets/js/inyector.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-  
+  <script src="/assets/js/inyector.js"></script>
+  <script src="/assets/js/pos.js"></script>
 </body>
-
 </html>

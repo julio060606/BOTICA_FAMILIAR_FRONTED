@@ -1,62 +1,52 @@
-<!-- ========================================== -->
-<!-- MODAL: CERRAR CAJA Y ARQUEO FINAL          -->
-<!-- ========================================== -->
 <div class="modal fade" id="modalCerrarCaja" tabindex="-1" aria-hidden="true" data-bs-backdrop="static">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content modal-content-google border-0">
       
-      <!-- Header oscuro para dar sensación de finalización -->
+      <!-- Cabecera de Alerta / Cierre -->
       <div class="modal-header border-bottom-0 p-4 bg-dark text-white" style="border-radius: var(--radius-xl) var(--radius-xl) 0 0;">
         <h5 class="modal-title fw-bold">Arqueo y Cierre de Caja</h5>
         <button type="button" class="btn-close btn-close-white shadow-none" data-bs-dismiss="modal"></button>
       </div>
       
       <div class="modal-body p-4 text-center">
-        
         <p class="text-google-muted small mb-4">Para cerrar el turno, ingrese el monto exacto de dinero físico que hay actualmente en la gaveta.</p>
 
-        <!-- Saldo del Sistema (Oculto o Visible según las reglas de tu negocio. Lo mostramos por transparencia) -->
+        <!-- Saldo del Sistema (Dato de Referencia) -->
         <div class="d-flex justify-content-between align-items-center mb-4 px-3 py-2 bg-light rounded-3 border-google">
           <span class="text-google-title fw-medium">El sistema espera:</span>
-          <span class="fw-bold fs-5 text-google-title font-monospace">S/ 635.50</span>
+          <span class="fw-bold fs-5 text-google-title font-monospace">S/ <span id="cierre-sistema-espera">0.00</span></span>
         </div>
 
-        <form>
+        <!-- Formulario (Llama a cerrarCajaBackend al enviar) -->
+        <form id="form-cerrar-caja" onsubmit="event.preventDefault(); cerrarCajaBackend();">
+          
+          <!-- Input de Dinero Físico (Descuadre dinámico con oninput) -->
           <div class="mb-4 text-start">
             <label class="form-label small fw-bold text-google-title text-uppercase letter-spacing-1">¿Cuánto dinero físico contaste? *</label>
             <div class="input-group input-group-lg">
               <span class="input-group-text bg-white border-google text-google-muted fw-bold">S/</span>
-              <!-- Si el cajero tipea 630.00 (faltan 5 soles) -->
-              <input type="number" step="0.10" class="form-control form-control-google text-center fw-bold fs-3 text-danger border-danger" value="630.00" autofocus>
+              <input type="number" step="0.10" id="cierre-dinero-fisico" oninput="calcularDiferenciaCierre()" class="form-control form-control-google text-center fw-bold fs-3 text-primary" placeholder="0.00" required>
             </div>
           </div>
 
-          <!-- Cuadro de Diferencia (Calculado por JS. Aquí maquetamos un Faltante) -->
-          <div class="p-3 rounded-3 mb-2" style="background-color: var(--g-danger-soft); border: 1px solid rgba(217, 48, 37, 0.2);">
-            <div class="d-flex justify-content-between align-items-center">
-              <span class="fw-bold" style="color: var(--g-danger);">⚠️ FALTANTE EN CAJA:</span>
-              <span class="fw-bold fs-4" style="color: var(--g-danger);">- S/ 5.50</span>
-            </div>
-          </div>
-          <div class="small text-danger text-start px-2 mb-4">
-            Se registrará la incidencia en el reporte del turno.
+          <!-- Cuadro de Diferencia (Se pinta con control-caja.js) -->
+          <div id="cierre-diferencia-box" class="p-3 rounded-3 mb-4 text-center shadow-sm" style="background-color: #f8f9fa; border: 1px dashed #adb5bd;">
+            <span class="fw-bold text-muted">Ingresa el monto para ver si hay descuadre</span>
           </div>
 
-          <div class="text-start">
-            <label class="form-label small fw-medium text-google-title">Observaciones del Cierre (Opcional)</label>
-            <textarea class="form-control form-control-google" rows="2" placeholder="Explique el faltante o sobrante..."></textarea>
+          <!-- Observaciones (Por si falta o sobra plata) -->
+          <div class="text-start mb-4">
+            <label class="form-label small fw-medium text-google-title">Observaciones (Requerido si hay descuadre)</label>
+            <textarea id="cierre-observaciones" class="form-control form-control-google" rows="2" placeholder="Explique el faltante o sobrante si lo hubiere..."></textarea>
           </div>
+          
+          <!-- Botón de Envío -->
+          <button type="submit" class="btn w-100 py-3 fs-6 fw-bold shadow-sm rounded-pill text-white bg-dark">
+            Confirmar Cierre de Caja
+          </button>
         </form>
 
       </div>
-      
-      <div class="modal-footer border-top-0 pt-0 px-4 pb-4">
-        <!-- Botón de peligro al haber descuadre -->
-        <button type="button" class="btn w-100 py-3 fs-6 fw-bold shadow-sm rounded-pill text-white" style="background-color: var(--g-text-title);">
-          Confirmar Cierre de Caja
-        </button>
-      </div>
-
     </div>
   </div>
 </div>
