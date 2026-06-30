@@ -30,7 +30,7 @@
             </div>
           </div>
 
-          <!-- 1. BARRA DE BÚSQUEDA Y FILTROS -->
+          <!-- 1. BARRA DE BÚSQUEDA Y FILTROS (DISEÑO ORIGINAL RESTAURADO) -->
           <div class="card card-google mb-4 p-3">
             <div class="row g-3 align-items-center">
               
@@ -38,7 +38,7 @@
               <div class="col-lg-4">
                 <div class="search-google d-flex align-items-center gap-2">
                   <span>🔍</span>
-                  <input type="text" placeholder="Buscar por Nro. de Ticket (Ej. T001-0084)...">
+                  <input type="text" id="input-buscar" placeholder="Buscar por Nro. de Ticket (Ej. T001-0084)...">
                 </div>
               </div>
 
@@ -46,122 +46,60 @@
               <div class="col-lg-3">
                 <div class="input-group">
                   <span class="input-group-text bg-light border-google text-google-muted">📅</span>
-                  <input type="date" class="form-control form-control-google border-start-0" value="2026-05-04">
+                  <input type="date" id="filtro-fecha" class="form-control form-control-google border-start-0">
                 </div>
               </div>
 
               <!-- Filtro por Estado -->
               <div class="col-lg-3">
-                <select class="form-select form-control-google text-google-muted">
-                  <option selected>Todos los estados</option>
+                <select id="filtro-estado" class="form-select form-control-google text-google-muted">
+                  <option value="todos" selected>Todos los estados</option>
                   <option value="valido">Válidos</option>
                   <option value="anulado">Anulados</option>
                 </select>
               </div>
 
+              <!-- Botón de Filtrar (Opcional, el JS ya filtra en tiempo real, pero lo mantenemos por estética) -->
               <div class="col-lg-2">
-                <button class="btn btn-google-light w-100 fw-medium">Filtrar</button>
+                <button class="btn btn-google-light w-100 fw-medium" id="btn-filtrar">Actualizar</button>
               </div>
 
             </div>
           </div>
 
-          <!-- 2. TABLA DE TICKETS -->
+          <!-- 2. TABLA DE TICKETS (DISEÑO ORIGINAL RESTAURADO) -->
           <div class="card card-google d-flex flex-column">
             
             <div class="table-responsive mb-0">
               <table class="table table-hover align-middle m-0 table-google">
                 <thead>
                   <tr class="small text-google-muted text-uppercase letter-spacing-1">
-                    <th>Nro. Ticket</th>
+                    <th class="ps-4">Nro. Ticket</th>
                     <th>Fecha / Hora</th>
                     <th>Cliente</th>
                     <th class="text-center">Medio Pago</th>
                     <th>Cajero</th>
                     <th class="text-end">Total</th>
                     <th class="text-center">Estado</th>
-                    <th class="text-center">Acciones</th>
+                    <th class="text-center pe-4">Acciones</th>
                   </tr>
                 </thead>
-                <tbody class="border-top-0">
-                  
-                  <!-- Ticket 1: Válido -->
+                <!-- AQUÍ EL JS INYECTARÁ LOS TR -->
+                <tbody class="border-top-0" id="tickets-tabla-body">
                   <tr>
-                    <td><span class="text-google-title fw-bold font-monospace">T001-0084</span></td>
-                    <td class="text-google-muted small">04/05/2026<br>14:30:15</td>
-                    <td class="text-google-title">Público en General</td>
-                    <td class="text-center"><span class="fs-5" title="Efectivo">💵</span></td>
-                    <td class="text-google-muted">Julio Minaya</td>
-                    <td class="text-end fw-bold text-google-title">S/ 11.00</td>
-                    <td class="text-center">
-                      <span class="badge badge-tonal-success rounded-pill px-3 py-2 fw-medium">Válido</span>
-                    </td>
-                    <td class="text-center">
-                      <!-- Botón para ver el detalle -->
-                      <button class="btn btn-sm btn-google-light text-primary border-0" 
-                              data-bs-toggle="modal" data-bs-target="#modalDetalleTicket" title="Ver Detalle">
-                        👁️
-                      </button>
-                      <!-- Botón rápido para reimprimir -->
-                      <button class="btn btn-sm btn-google-light text-secondary border-0" title="Reimprimir">
-                        🖨️
-                      </button>
-                    </td>
+                    <td colspan="8" class="text-center py-5 text-google-muted">Cargando historial de ventas...</td>
                   </tr>
-
-                  <!-- Ticket 2: Anulado -->
-                  <tr class="bg-light opacity-75">
-                    <td><span class="text-google-muted text-decoration-line-through font-monospace">T001-0083</span></td>
-                    <td class="text-google-muted small">04/05/2026<br>12:15:00</td>
-                    <td class="text-google-muted">Maria Lopez</td>
-                    <td class="text-center"><span class="fs-5 opacity-50" title="Yape">📱</span></td>
-                    <td class="text-google-muted">Julio Minaya</td>
-                    <td class="text-end fw-bold text-google-muted text-decoration-line-through">S/ 45.50</td>
-                    <td class="text-center">
-                      <span class="badge badge-tonal-danger rounded-pill px-3 py-2 fw-medium">Anulado</span>
-                    </td>
-                    <td class="text-center">
-                      <button class="btn btn-sm btn-google-light text-primary border-0" 
-                              data-bs-toggle="modal" data-bs-target="#modalDetalleTicket" title="Ver Detalle">
-                        👁️
-                      </button>
-                    </td>
-                  </tr>
-
-                  <!-- Ticket 3: Válido (Tarjeta) -->
-                  <tr>
-                    <td><span class="text-google-title fw-bold font-monospace">T001-0082</span></td>
-                    <td class="text-google-muted small">04/05/2026<br>10:05:22</td>
-                    <td class="text-google-title">Juan Perez (DNI 45...)</td>
-                    <td class="text-center"><span class="fs-5" title="Tarjeta">💳</span></td>
-                    <td class="text-google-muted">Julio Minaya</td>
-                    <td class="text-end fw-bold text-google-title">S/ 120.00</td>
-                    <td class="text-center">
-                      <span class="badge badge-tonal-success rounded-pill px-3 py-2 fw-medium">Válido</span>
-                    </td>
-                    <td class="text-center">
-                      <button class="btn btn-sm btn-google-light text-primary border-0" 
-                              data-bs-toggle="modal" data-bs-target="#modalDetalleTicket" title="Ver Detalle">
-                        👁️
-                      </button>
-                      <button class="btn btn-sm btn-google-light text-secondary border-0" title="Reimprimir">
-                        🖨️
-                      </button>
-                    </td>
-                  </tr>
-
                 </tbody>
               </table>
             </div>
-
-            <!-- Paginación -->
+                
+            <!-- Paginación / Footer restaurado -->
             <div class="card-footer bg-transparent border-top py-3 d-flex justify-content-between align-items-center">
-              <span class="small text-google-muted">Mostrando 3 de 84 tickets de hoy</span>
+              <span class="small text-google-muted" id="contador-tickets">Mostrando 0 tickets en pantalla</span>
               <div class="d-flex gap-2">
                 <button class="btn btn-sm btn-light rounded-pill px-3 fw-medium text-google-muted border-google" disabled>Anterior</button>
                 <button class="btn btn-sm btn-google-primary rounded-pill px-3 fw-medium">1</button>
-                <button class="btn btn-sm btn-light rounded-pill px-3 fw-medium text-google-muted border-google">2</button>
-                <button class="btn btn-sm btn-light rounded-pill px-3 fw-medium text-google-muted border-google">Siguiente</button>
+                <button class="btn btn-sm btn-light rounded-pill px-3 fw-medium text-google-muted border-google" disabled>Siguiente</button>
               </div>
             </div>
 
@@ -172,11 +110,74 @@
     </div>
   </div>
 
-  <!-- Contenedor del Modal -->
-  <div id="modal-detalle-ticket-container"></div>
+  <!-- ========================================================= -->
+  <!-- MODAL: DETALLE DEL TICKET -->
+  <!-- ========================================================= -->
+  <div class="modal fade" id="modalDetalleTicket" tabindex="-1" aria-hidden="true" data-bs-backdrop="static">
+    <div class="modal-dialog modal-dialog-centered modal-sm">
+      <div class="modal-content rounded-4 border-0 shadow-lg">
+        
+        <div class="modal-header border-bottom pb-3 bg-light">
+          <h5 class="modal-title fw-bold text-google-title d-flex align-items-center gap-2">
+            <span>🧾</span> Comprobante
+          </h5>
+          <button type="button" class="btn-close shadow-none" data-bs-dismiss="modal"></button>
+        </div>
+
+        <div class="modal-body p-0">
+          <div class="p-4 mx-3 my-3 rounded" style="background-color: #fcfcfc; font-family: 'Courier New', Courier, monospace; border: 1px solid #e9ecef;">
+            <div class="text-center mb-3" style="border-bottom: 2px dashed #adb5bd; padding-bottom: 10px;">
+              <h5 class="fw-bold mb-1">BOTICA FAMILIAR</h5>
+              <div class="small" id="detalle-ticket-nro">T001-0000</div>
+              <div class="small text-muted" id="detalle-ticket-fecha">--/--/---- --:--</div>
+            </div>
+
+            <div class="mb-2 small">
+              <div><strong>Cajero:</strong> <span id="detalle-ticket-cajero">...</span></div>
+              <div><strong>Cliente:</strong> <span id="detalle-ticket-cliente">...</span></div>
+            </div>
+
+            <div style="max-height: 200px; overflow-y: auto;" class="mb-3 custom-scrollbar">
+              <table class="w-100 small">
+                <thead>
+                  <tr style="border-bottom: 1px dashed #adb5bd; border-top: 1px dashed #adb5bd;">
+                    <th class="py-1 text-start" style="width: 15%;">CANT</th>
+                    <th class="py-1 text-start">PRODUCTO</th>
+                    <th class="py-1 text-end">IMP.</th>
+                  </tr>
+                </thead>
+                <!-- AQUÍ EL JS INYECTA LAS PASTILLAS -->
+                <tbody id="tabla-detalle-productos"></tbody>
+              </table>
+            </div>
+
+            <div class="pt-2" style="border-top: 2px dashed #adb5bd;">
+              <div class="d-flex justify-content-between fw-bold fs-6 mt-1">
+                <span>TOTAL:</span>
+                <span>S/ <span id="detalle-ticket-total">0.00</span></span>
+              </div>
+              <div class="d-flex justify-content-between small text-muted mt-1">
+                <span>Método Pago:</span>
+                <span id="detalle-ticket-pago">EFECTIVO</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="modal-footer border-top-0 pt-0 pb-4 px-4 d-flex gap-2">
+          <!-- Botón de anular conectado al JS -->
+          <button type="button" class="btn btn-outline-danger fw-medium flex-grow-1" id="btn-anular-ticket">Anular</button>
+          <button type="button" class="btn btn-success fw-bold flex-grow-1" onclick="window.print()">🖨️ Imprimir</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="modal-acceso-denegado"></div>
 
   <!-- Scripts -->
   <script src="/assets/js/inyector.js"></script>
+  <script src="/assets/js/historial.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
